@@ -1,0 +1,164 @@
+/* UserManagement.css - UPDATED COLOR SCHEME */
+.user-management {
+    padding: 20px;
+    background: white;
+    color: black;
+}
+
+.search-box {
+    position: relative;
+    width: 300px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: white;
+    color: black;
+}
+
+.search-box i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.users-table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+}
+
+.users-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    color: black;
+}
+
+.users-table th {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #49aea2;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.role-badge {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.role-badge.admin {
+    background: #49aea2;
+    color: white;
+}
+
+.role-badge.customer {
+    background: #49aea2;
+    color: white;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-badge.active {
+    background: #49aea2;
+    color: white;
+}
+
+.status-badge.inactive {
+    background: #666;
+    color: white;
+}
+
+.btn-status {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-active {
+    background: #49aea2;
+    color: white;
+}
+
+.btn-inactive {
+    background: #666;
+    color: white;
+}
+
+.btn-delete {
+    background: #666;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.no-users {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .management-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+    
+    .users-table {
+        overflow-x: auto;
+    }
+    
+    .users-table table {
+        min-width: 800px;
+    }
+}
