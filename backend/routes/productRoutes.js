@@ -1,10 +1,15 @@
+
 import express from "express";
 import { getProducts, createProduct } from "../controllers/productController.js";
-import protect from "../middleware/authMiddleware.js";
+import { protect, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+// ✅ Public route
 router.get("/", getProducts);
-router.post("/", protect, createProduct);
+
+// ✅ Protected + Admin route
+router.post("/", protect, admin, createProduct);
 
 export default router;
+

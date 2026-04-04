@@ -1,11 +1,22 @@
 import Product from "../models/Product.js";
 
+
+// GET products
 export const getProducts = async (req, res) => {
-  const data = await Product.find();
-  res.json(data);
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
+// CREATE product
 export const createProduct = async (req, res) => {
-  const product = await Product.create(req.body);
-  res.json(product);
+  try {
+    const product = await Product.create(req.body);
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

@@ -1,100 +1,148 @@
 
-
-// Enhanced AdminLogin.js - Updated button color
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API from './api/api'; 
 
 const AdminLogin = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({
-    username: '',
-    password: ''
+    email: '',
+    password: '',
+    rememberMe: false
   });
+
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (credentials.username === 'Apexiums' && credentials.password === 'apexium3841') {
-      onLogin();
-      navigate('/admin'); // Redirect after login
-    } else {
-      alert('Invalid admin credentials.');
+    try {
+      const { data } = await API.post('/api/users/login', {
+        email: credentials.email,
+        password: credentials.password
+      });
+
+      if (!data.isAdmin) {
+        alert('Not an admin account');
+        return;
+      }
+
+      // Store in localStorage or sessionStorage based on "Remember Me"
+      if (credentials.rememberMe) {
+        localStorage.setItem('admin', JSON.stringify(data));
+      } else {
+        sessionStorage.setItem('admin', JSON.stringify(data));
+      }
+
+      onLogin(); 
+      navigate('/admin');
+
+    } catch (error) {
+      console.error(error);
+      alert('Invalid credentials');
     }
   };
 
   return (
-    <div className="admin-login-page" style={{
+    <div style={{
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#f8f9fa'
+      background: 'linear-gradient(to right, #f8f9fa, #e0e0e0)'
     }}>
-      <div className="login-container" style={{
-        background: 'white',
-        padding: '2rem',
-        borderRadius: '10px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        width: '100%',
-        maxWidth: '400px'
-      }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
-          Admin Login
-        </h2>
+      <div style={{
+        background: '#fff',
+        padding: '3rem 2rem',
+        borderRadius: '12px',
+        width: '400px',
+        boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+        transition: 'transform 0.2s',
+      }}
+        onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
+        onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+      >
+        <h2 style={{
+          textAlign: 'center',
+          marginBottom: '2rem',
+          color: '#4b2e2e',
+          fontFamily: 'Arial, sans-serif'
+        }}>Admin Login</h2>
+
         <form onSubmit={handleSubmit}>
-          <div className="form-group" style={{ marginBottom: '1rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-              Username
-            </label>
-            <input
-              type="text"
-              value={credentials.username}
-              onChange={(e) => setCredentials({...credentials, username: e.target.value})}
-              required
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: '1px solid #ddd',
-                borderRadius: '5px',
-                fontSize: '1rem'
-              }}
-            />
-          </div>
-          <div className="form-group" style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
-              Password
-            </label>
-            <input
-              type="password"
-              value={credentials.password}
-              onChange={(e) => setCredentials({...credentials, password: e.target.value})}
-              required
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: '1px solid #ddd',
-                borderRadius: '5px',
-                fontSize: '1rem'
-              }}
-            />
-          </div>
-          <button 
-            type="submit" 
+          <input
+            type="email"
+            id="email"
+            placeholder="Email"
+            value={credentials.email}
+            onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+            required
             style={{
               width: '100%',
-              background: '#49aea2',
-              color: 'white',
-              border: 'none',
-              padding: '0.75rem',
-              borderRadius: '5px',
-              fontSize: '1rem',
-              cursor: 'pointer'
+              padding: '12px 15px',
+              marginBottom: '15px',
+              borderRadius: '6px',
+              border: '1px solid #ccc',
+              fontSize: '15px',
+              outline: 'none',
+              transition: 'border 0.2s',
             }}
+            onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
+            onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
+          />
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            value={credentials.password}
+            onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+            required
+            style={{
+              width: '100%',
+              padding: '12px 15px',
+              marginBottom: '10px',
+              borderRadius: '6px',
+              border: '1px solid #ccc',
+              fontSize: '15px',
+              outline: 'none',
+              transition: 'border 0.2s',
+            }}
+            onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
+            onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
+          />
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '20px'
+          }}>
+            <input
+              type="checkbox"
+              checked={credentials.rememberMe}
+              onChange={(e) => setCredentials({ ...credentials, rememberMe: e.target.checked })}
+              id="rememberMe"
+              style={{ marginRight: '10px' }}
+            />
+            <label htmlFor="rememberMe" style={{ fontSize: '14px', color: '#555' }}>Remember Me</label>
+          </div>
+
+          <button type="submit" style={{
+            width: '100%',
+            padding: '12px',
+            background: '#4b2e2e', // Dark brown
+            color: '#fff',
+            border: 'none',
+            borderRadius: '6px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            fontSize: '16px',
+            transition: 'background 0.3s'
+          }}
+            onMouseEnter={e => e.currentTarget.style.background = '#3b1f1f'}
+            onMouseLeave={e => e.currentTarget.style.background = '#4b2e2e'}
           >
             Login
           </button>
         </form>
-        <div style={{ marginTop: '1rem', textAlign: 'center', color: '#666' }}>
-        </div>
       </div>
     </div>
   );

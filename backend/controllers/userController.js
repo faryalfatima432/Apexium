@@ -17,6 +17,24 @@ export const registerUser = async (req, res) => {
   });
 };
 
+// export const loginUser = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   const user = await User.findOne({ email });
+
+//   if (user && (await user.matchPassword(password))) {
+//     res.json({
+//       _id: user._id,
+//       name: user.name,
+//       token: generateToken(user._id),
+//     });
+//   } else {
+//     res.status(401).json({ message: "Invalid credentials" });
+//   }
+// };
+
+
+// ✅ LOGIN (Admin + User)
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -26,9 +44,12 @@ export const loginUser = async (req, res) => {
     res.json({
       _id: user._id,
       name: user.name,
+      email: user.email,
+      image: user.image,
+      isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
   } else {
-    res.status(401).json({ message: "Invalid credentials" });
+    res.status(401).json({ message: "Invalid email or password" });
   }
 };
