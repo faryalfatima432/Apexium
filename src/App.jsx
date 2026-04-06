@@ -248,8 +248,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Header from './components/Header';
-import SearchPanel from './components/SearchPanel';
-import CartPanel from './components/CartPanel';
 import Home from './pages/Home';
 import CategoryPage from './pages/CategoryPage';
 import ProductDetail from './pages/ProductDetail';
@@ -264,7 +262,8 @@ import MyAccount from './pages/MyAccount';
 import Notifications from './pages/Notifications';
 import './App.css';
 import Terms from './pages/Terms';
-
+import SearchPanel from './components/SearchPanel';
+import CartPanel from './components/CartPanel';
 export const CartContext = React.createContext();
 
 export default function App() {
@@ -280,8 +279,8 @@ export default function App() {
   useEffect(() => {
     generateSampleData();
 
-    const savedAuth = localStorage.getItem('adminAuthenticated');
-    if (savedAuth === 'true') setIsAdminAuthenticated(true);
+    const admin = localStorage.getItem('admin');
+    if (admin) setIsAdminAuthenticated(true);
 
     const userLoginData = localStorage.getItem('userLoginData');
     if (userLoginData) setIsLoggedIn(true);
@@ -338,12 +337,11 @@ export default function App() {
 
   const adminLogin = () => {
     setIsAdminAuthenticated(true);
-    localStorage.setItem('adminAuthenticated', 'true');
   };
 
   const adminLogout = () => {
     setIsAdminAuthenticated(false);
-    localStorage.removeItem('adminAuthenticated');
+    localStorage.removeItem('admin');
   };
 
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -386,17 +384,19 @@ export default function App() {
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/terms" element={<Terms />} />
 
-            <Route path="/admin/*" element={
+            {/* <Route path="/admin/*" element={
               isAdminAuthenticated
                 ? <Admin onLogout={adminLogout} />
                 : <Navigate to="/admin/login" />
-            } />
+            } /> */}
+
 
             <Route path="/admin/login" element={
               isAdminAuthenticated
                 ? <Navigate to="/admin" />
                 : <AdminLogin onLogin={adminLogin} />
             } />
+             <Route path="/admin/*" element={<Admin />} />
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

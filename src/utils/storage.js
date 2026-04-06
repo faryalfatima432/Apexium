@@ -16,3 +16,11 @@ export const getFromLocalStorage = (key, defaultValue = []) => {
         return defaultValue;
     }
 };
+
+export const removeFromLocalStorage = (key) => {
+    try {
+        localStorage.removeItem(key);
+    } catch (error) {
+        console.error('Error removing from localStorage:', error);
+    }
+};

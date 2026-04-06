@@ -12,35 +12,63 @@ const AdminLogin = ({ onLogin }) => {
 
   const navigate = useNavigate();
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const { data } = await API.post('/api/users/login', {
+  //       email: credentials.email,
+  //       password: credentials.password
+  //     });
+
+  //     if (!data.isAdmin) {
+  //       alert('Not an admin account');
+  //       return;
+  //     }
+
+  //     // Store in localStorage or sessionStorage based on "Remember Me"
+  //     if (credentials.rememberMe) {
+  //       localStorage.setItem('admin', JSON.stringify(data));
+  //     } else {
+  //       sessionStorage.setItem('admin', JSON.stringify(data));
+  //     }
+
+  //     onLogin(); 
+  //     navigate('/admin');
+
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert('Invalid credentials');
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await API.post('/api/users/login', {
-        email: credentials.email,
-        password: credentials.password
-      });
+  e.preventDefault();
 
-      if (!data.isAdmin) {
-        alert('Not an admin account');
-        return;
-      }
+  try {
+    const { data } = await API.post('/users/login', {
+      email: credentials.email,
+      password: credentials.password
+    });
 
-      // Store in localStorage or sessionStorage based on "Remember Me"
-      if (credentials.rememberMe) {
-        localStorage.setItem('admin', JSON.stringify(data));
-      } else {
-        sessionStorage.setItem('admin', JSON.stringify(data));
-      }
-
-      onLogin(); 
-      navigate('/admin');
-
-    } catch (error) {
-      console.error(error);
-      alert('Invalid credentials');
+    if (!data.isAdmin) {
+      alert('Not an admin account');
+      return;
     }
-  };
 
+    if (credentials.rememberMe) {
+      localStorage.setItem('admin', JSON.stringify(data));
+    } else {
+      sessionStorage.setItem('admin', JSON.stringify(data));
+    }
+
+    onLogin();
+    navigate('/admin');
+
+  } catch (error) {
+    console.error(error.response?.data || error.message);
+    alert(error.response?.data?.message || 'Invalid credentials');
+  }
+};
   return (
     <div style={{
       minHeight: '100vh',

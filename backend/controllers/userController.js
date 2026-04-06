@@ -53,3 +53,22 @@ export const loginUser = async (req, res) => {
     res.status(401).json({ message: "Invalid email or password" });
   }
 };
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({}).select('-password');
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// export const logoutUser = async (req, res) => {
+//   try {
+//     // Clear token cookie
+//     res.clearCookie("token");
+//     res.json({ message: "Logged out successfully" });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
