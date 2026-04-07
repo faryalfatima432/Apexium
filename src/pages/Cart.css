@@ -1,0 +1,140 @@
+/* ===== CONTAINER ===== */
+.cart-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+/* ===== EMPTY ===== */
+.empty-cart {
+  text-align: center;
+  margin-top: 50px;
+  color: #6b4423;
+}
+
+/* ===== LEFT SIDE ===== */
+.cart-items {
+  flex: 2;
+}
+
+/* ===== CART CARD ===== */
+.cart-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  gap: 15px;
+}
+
+/* IMAGE */
+.cart-card img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* DETAILS */
+.cart-details {
+  flex: 1;
+}
+
+.cart-details h4 {
+  margin: 0;
+  color: #333;
+}
+
+.price {
+  color: #6b4423;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+/* QUANTITY */
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qty-controls button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #6b4423;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.qty-controls span {
+  font-weight: bold;
+}
+
+/* RIGHT SIDE */
+.cart-actions {
+  text-align: right;
+}
+
+.subtotal {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.remove-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ===== SUMMARY ===== */
+.cart-summary {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  height: fit-content;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+/* BUTTONS */
+.checkout-btn {
+  width: 100%;
+  padding: 12px;
+  background: #6b4423;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.clear-btn {
+  width: 100%;
+  padding: 10px;
+  background: #ddd;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .cart-container {
+    flex-direction: column;
+  }
+}

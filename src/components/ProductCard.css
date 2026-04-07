@@ -1,0 +1,58 @@
+/* ===== BUTTONS UPGRADE ===== */
+
+.add-btn {
+  width: 100%;
+  padding: 8px;
+  background: linear-gradient(135deg, #8c5a32, #6b4423);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107, 68, 35, 0.3);
+}
+
+/* VIEW DETAILS */
+.details-btn {
+  width: 100%;
+  margin-top: 6px;
+  padding: 7px;
+  border: 1px solid #6b4423;
+  background: transparent;
+  color: #6b4423;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.details-btn:hover {
+  background: #6b4423;
+  color: #fff;
+}
+
+/* ===== RATING ===== */
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.rating .active {
+  color: gold;
+}
+
+.rating-text {
+  margin-left: 5px;
+  color: #777;
+  font-size: 11px;
+}

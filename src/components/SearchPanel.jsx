@@ -1,4 +1,4 @@
-// SearchPanel.js - Updated with new color scheme #49aea2
+// SearchPanel.js - Updated with brown accent color scheme
 import React, { useState } from 'react';
 import { Offcanvas, Form, ListGroup } from 'react-bootstrap';
 import { products } from '../data/products';
@@ -64,8 +64,8 @@ const SearchPanel = ({ show, handleClose }) => {
 
       <style jsx>{`
         :root {
-          --primary-color: #49aea2;
-          --primary-dark: #3a8a80;
+          --primary-color: #6b4423;
+          --primary-dark: #4b321d;
         }
         
         .offcanvas-header {
@@ -79,7 +79,7 @@ const SearchPanel = ({ show, handleClose }) => {
         
         .search-input:focus {
           border-color: var(--primary-color);
-          box-shadow: 0 0 0 0.2rem rgba(73, 174, 162, 0.25);
+          box-shadow: 0 0 0 0.2rem rgba(107, 68, 35, 0.18);
         }
         
         .list-group-item-action {
@@ -87,7 +87,7 @@ const SearchPanel = ({ show, handleClose }) => {
         }
         
         .list-group-item-action:hover {
-          background-color: rgba(73, 174, 162, 0.1);
+          background-color: rgba(107, 68, 35, 0.12);
           border-color: var(--primary-color);
         }
         
