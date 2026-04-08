@@ -3,38 +3,32 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import "./AdminLayout.css";
 import API from "./api/api";
 
-const AdminLayout = () => {
+const AdminLayout = ({ onLogout }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [adminData, setAdminData] = useState(null);
   const navigate = useNavigate();
   const dropdownRef = useRef();
 
-  // Check authentication on component mount
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    const admin = localStorage.getItem('adminData');
+    const admin =
+      JSON.parse(localStorage.getItem('admin')) ||
+      JSON.parse(sessionStorage.getItem('admin'));
 
-    if (token && admin) {
-      try {
-        const parsedAdmin = JSON.parse(admin);
-        setAdminData(parsedAdmin);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Error parsing admin data:', error);
-        handleLogout();
-      }
+    if (admin?.token) {
+      setAdminData(admin);
     } else {
       navigate('/admin/login');
     }
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminData');
-    setIsAuthenticated(false);
+    localStorage.removeItem('admin');
+    sessionStorage.removeItem('admin');
     setAdminData(null);
+    if (typeof onLogout === 'function') {
+      onLogout();
+    }
     navigate('/admin/login');
   };  
   //Close dropdown on outside click

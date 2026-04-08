@@ -23,14 +23,24 @@ export default function App() {
   const navigate = useNavigate();
   const { user } = useUser();
 
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  const getStoredAdmin = () => {
+    return (
+      JSON.parse(localStorage.getItem("admin")) ||
+      JSON.parse(sessionStorage.getItem("admin"))
+    );
+  };
+
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
+    const admin = getStoredAdmin();
+    return !!admin?.isAdmin;
+  });
 
   // Detect admin route
   const isAdminRoute = location.pathname.startsWith("/admin");
 
   useEffect(() => {
-    const admin = localStorage.getItem("admin");
-    if (admin) setIsAdminAuthenticated(true);
+    const admin = getStoredAdmin();
+    if (admin?.isAdmin) setIsAdminAuthenticated(true);
   }, []);
 
   const adminLogin = () => setIsAdminAuthenticated(true);
@@ -38,6 +48,7 @@ export default function App() {
   const adminLogout = () => {
     setIsAdminAuthenticated(false);
     localStorage.removeItem("admin");
+    sessionStorage.removeItem("admin");
   };
 
   // Protected Admin Route

@@ -55,16 +55,21 @@ const AdminLogin = ({ onLogin }) => {
         return;
       }
 
-      // Store admin data persistently
-      localStorage.setItem('adminToken', data.token);
-      localStorage.setItem('adminData', JSON.stringify({
+      const admin = {
         _id: data._id,
         name: data.name,
         email: data.email,
-        isAdmin: data.isAdmin
-      }));
+        isAdmin: data.isAdmin,
+        token: data.token,
+      };
 
-      onLogin(data);
+      if (credentials.rememberMe) {
+        localStorage.setItem('admin', JSON.stringify(admin));
+      } else {
+        sessionStorage.setItem('admin', JSON.stringify(admin));
+      }
+
+      onLogin();
       navigate('/admin/dashboard');
 
     } catch (error) {
