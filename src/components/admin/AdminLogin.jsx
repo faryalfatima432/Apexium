@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from './api/api'; 
 
@@ -12,34 +12,23 @@ const AdminLogin = ({ onLogin }) => {
 
   const navigate = useNavigate();
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const { data } = await API.post('/api/users/login', {
-  //       email: credentials.email,
-  //       password: credentials.password
-  //     });
+  // Redirect to dashboard if admin is already logged in
+  // Block access if regular user is logged in
+  useEffect(() => {
+    const admin =
+      JSON.parse(localStorage.getItem('admin')) ||
+      JSON.parse(sessionStorage.getItem('admin'));
+    const userToken = localStorage.getItem('token');
 
-  //     if (!data.isAdmin) {
-  //       alert('Not an admin account');
-  //       return;
-  //     }
+    if (admin?.isAdmin) {
+      navigate('/admin/dashboard');
+    } else if (userToken) {
+      // Regular user is logged in, block admin login
+      alert('You are logged in as a regular user. Please logout first to access admin login.');
+      navigate('/');
+    }
+  }, [navigate]);
 
-  //     // Store in localStorage or sessionStorage based on "Remember Me"
-  //     if (credentials.rememberMe) {
-  //       localStorage.setItem('admin', JSON.stringify(data));
-  //     } else {
-  //       sessionStorage.setItem('admin', JSON.stringify(data));
-  //     }
-
-  //     onLogin(); 
-  //     navigate('/admin');
-
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert('Invalid credentials');
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,6 +51,11 @@ const AdminLogin = ({ onLogin }) => {
         isAdmin: data.isAdmin,
         token: data.token,
       };
+
+      // Clear any regular user session when admin logs in
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
 
       if (credentials.rememberMe) {
         localStorage.setItem('admin', JSON.stringify(admin));

@@ -41,11 +41,11 @@ const Navbar = () => {
 
           {/* LEFT: LOGO */}
           <div 
-            className="logo " 
+            className="lay navbar-brand d-flex align-items-center fw-bold fs-4 gap-2" 
             onClick={() => navigate("/")}
             style={{ cursor: "pointer" }}
           >
-            🛍️ Apexium
+           <p className="clo">Apexium</p>
           </div>
 
           {/* CENTER: SEARCH */}

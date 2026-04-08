@@ -12,9 +12,10 @@
   padding-top: 0;
 }
 
-/* ===== HERO SECTION ===== */
+/* HERO SECTION */
 .hero-section {
   position: relative;
+  width: 100%;
   height: 520px;
   overflow: hidden;
   margin-bottom: 50px;
@@ -31,13 +32,14 @@
   width: 100%;
   height: 100%;
   opacity: 0;
-  transition: opacity 0.6s ease-in-out;
+  transition: opacity 0.7s ease;
 }
 
 .hero-slide.active {
   opacity: 1;
   z-index: 5;
 }
+/* IMAGE */
 
 .hero-slide img {
   width: 100%;
@@ -45,29 +47,27 @@
   object-fit: cover;
   object-position: center;
 }
-
-/* Hero Navigation Buttons */
 .hero-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 20;
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  cursor: pointer;
+  border: none;
+  background: rgba(255,255,255,0.9);
+  color: #6b4423;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  color: var(--primary-color);
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .hero-btn:hover {
-  background: var(--primary-color);
+  background: #6b4423;
   color: white;
   transform: translateY(-50%) scale(1.1);
 }
@@ -80,14 +80,15 @@
   right: 20px;
 }
 
-/* Hero Indicators */
+/* INDICATORS */
+
 .hero-indicators {
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 10px;
+  gap: 8px;
   z-index: 15;
 }
 
@@ -95,7 +96,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255,255,255,0.6);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -103,127 +104,111 @@
 
 .indicator.active {
   width: 30px;
-  border-radius: 6px;
-  background: var(--primary-color);
+  border-radius: 8px;
+  background: #6b4423;
 }
 
+/* ========================= */
+/* TABLET RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 1024px) {
+
+.hero-section {
+  height: 420px;
+}
+
+.hero-btn {
+  width: 45px;
+  height: 45px;
+}
+
+}
+
+/* ========================= */
+/* MOBILE RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+.hero-section {
+  height: 300px;
+  margin-bottom: 30px;
+}
+
+.hero-btn {
+  width: 35px;
+  height: 35px;
+  font-size: 16px;
+}
+
+.hero-btn.prev {
+  left: 10px;
+}
+
+.hero-btn.next {
+  right: 10px;
+}
+
+.hero-indicators {
+  bottom: 12px;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+}
+
+.indicator.active {
+  width: 22px;
+}
+
+}
+@media (max-width: 480px) {
+
+.hero-section {
+ 
+  height: 220px;
+}
+
+.hero-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+}
+
+}
 /* PRODUCTS */
 .products {
   padding: 40px 20px;
 }
 
+.products h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #4b2e2e;
+}
+
 .product-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 15px;
+  gap: 18px;
+  justify-content: center;
+}
+.products {
+  padding: 40px 20px;
 }
 
-/* Laptop */
-@media (max-width: 1200px) {
-  .product-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-/* Tablet */
-@media (max-width: 768px) {
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.product-card {
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  transition: 0.3s;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-}
-
-/* IMAGE */
-.product-img {
-  width: 100%;
-  height: 160px;
-}
-
-.product-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* SALE BADGE */
-.badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: brown;
-  color: #fff;
-  padding: 4px 8px;
-  font-size: 12px;
-}
-
-/* INFO */
-.product-info {
-  padding: 10px;
-}
-
-.product-info h4 {
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-/* RATING */
-.rating {
-  font-size: 12px;
-  color: #ccc;
-}
-
-.rating .active {
-  color: gold;
-}
-
-/* PRICE */
-.price {
-  display: flex;
-  gap: 6px;
-  margin: 5px 0;
-}
-
-.sale {
-  color: red;
-  font-weight: bold;
-}
-
-.old {
-  text-decoration: line-through;
-  color: gray;
-}
-
-.normal {
-  color: #6b4423;
-  font-weight: bold;
-}
-
-/* BUTTON */
-.details-btn {
-  display: block;
+.products h2 {
   text-align: center;
-  background: #6b4423;
-  color: white;
-  padding: 6px;
-  border-radius: 5px;
-  text-decoration: none;
+  margin-bottom: 30px;
+  color: #4b2e2e;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 18px;
+  justify-content: center;
 }
 /* CATEGORIES */

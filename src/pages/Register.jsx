@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "../context/UserContext";
@@ -11,7 +11,25 @@ const Register = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useUser();
+  const { login, isAuthenticated } = useUser();
+
+  // Redirect to home if user is already logged in
+  // Block access if admin is logged in
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/");
+    }
+    
+    // Check if admin is logged in
+    const admin =
+      JSON.parse(localStorage.getItem('admin')) ||
+      JSON.parse(sessionStorage.getItem('admin'));
+
+    if (admin?.isAdmin) {
+      alert('Please logout from admin account first to access user registration');
+      navigate('/admin/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
 
   const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
@@ -39,6 +57,10 @@ const Register = () => {
       });
 
       // Use UserContext login method
+      // Clear any admin session when user logs in
+      localStorage.removeItem('admin');
+      sessionStorage.removeItem('admin');
+      
       login(res.data, res.data.token);
 
       // Redirect to checkout

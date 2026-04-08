@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "../context/UserContext";
@@ -9,7 +9,22 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useUser();
+  const { login, isAuthenticated } = useUser();
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/");
+    }
+    
+    // Check if admin is logged in
+    const admin =
+      JSON.parse(localStorage.getItem('admin')) ||
+      JSON.parse(sessionStorage.getItem('admin'));
+
+    if (admin?.isAdmin) {
+      alert('Please logout from your user account first to access another login');
+      navigate('/admin/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
 
   const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
@@ -24,7 +39,9 @@ const Login = () => {
         password
       });
 
-      // Use UserContext login method
+      localStorage.removeItem('admin');
+      sessionStorage.removeItem('admin');
+      
       login(res.data, res.data.token);
 
       // Redirect to checkout or home

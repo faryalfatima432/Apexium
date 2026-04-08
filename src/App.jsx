@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import OrderSuccess from "./pages/OrderSuccess";
 import MyOrders from "./pages/MyOrders";
 import { useUser } from "./context/UserContext";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Admin
 import Admin from "./components/admin/Admin";
@@ -61,6 +62,7 @@ export default function App() {
       {/* Navbar only for frontend */}
       {!isAdminRoute && <Navbar />}
 
+        <ScrollToTop />
       <Routes>
         {/* ---------------- FRONTEND ---------------- */}
         <Route path="/" element={<Home />} />
@@ -75,6 +77,7 @@ export default function App() {
          <Checkout />
         </ProtectedRoute>
          }
+         
          />
         <Route path="/account" element={
           <ProtectedRoute>

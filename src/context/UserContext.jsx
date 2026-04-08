@@ -37,6 +37,9 @@ const UserProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    // Also clear any admin session
+    localStorage.removeItem("admin");
+    sessionStorage.removeItem("admin");
   };
 
   // Check if user is authenticated

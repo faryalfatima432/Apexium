@@ -63,46 +63,59 @@ const Home = () => {
     <div className="home">
 
       {/* ===== HERO ===== */}
-     <section className="hero-section">
-        <div className="hero-slider">
-          {heroImages.map((img, i) => (
-            <div key={i} className={`hero-slide ${i === currentSlide ? 'active' : ''}`}>
-              <img src={img} alt="slide" />
-            </div>
-          ))}
+    
+      <section className="hero-section">
+  <div className="hero-slider">
 
-          <button className="hero-btn prev" onClick={() => setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length)}>
-            <FaChevronLeft />
-          </button>
+    {heroImages.map((img, i) => (
+      <div key={i} className={`hero-slide ${i === currentSlide ? "active" : ""}`}>
+        <img src={img} alt={`Hero Slide ${i}`} loading="lazy" />
+      </div>
+    ))}
 
-          <button className="hero-btn next" onClick={() => setCurrentSlide((prev) => (prev + 1) % heroImages.length)}>
-            <FaChevronRight />
-          </button>
+    <button
+      className="hero-btn prev"
+      onClick={() =>
+        setCurrentSlide(
+          (prev) => (prev - 1 + heroImages.length) % heroImages.length
+        )
+      }
+    >
+      <FaChevronLeft />
+    </button>
 
-            <div className="hero-indicators">
-                {heroImages.map((_, i) => (
-                    <button
-                        key={i}
-                        className={`indicator ${i === currentSlide ? 'active' : ''}`}
-                        onClick={() => setCurrentSlide(i)}
-                    />
-                ))}
-            </div>
-        </div>
+    <button
+      className="hero-btn next"
+      onClick={() =>
+        setCurrentSlide((prev) => (prev + 1) % heroImages.length)
+      }
+    >
+      <FaChevronRight />
+    </button>
+
+    <div className="hero-indicators">
+      {heroImages.map((_, i) => (
+        <button
+          key={i}
+          className={`indicator ${i === currentSlide ? "active" : ""}`}
+          onClick={() => setCurrentSlide(i)}
+        />
+      ))}
+    </div>
+
+  </div>
       </section>
-
-
 
       {/* ===== PRODUCTS ===== */}
      <section className="products">
-  <h2>Featured Products</h2>
+     <h2>Featured Products</h2>
 
   <div className="product-grid">
     {products.map((p) => (
       <ProductCard key={p._id} p={p} backend_url={backend_url} />
     ))}
   </div>
-    </section>
+     </section>
 
       {/* ===== CATEGORIES ===== */}
       {/* <section className="categories">
