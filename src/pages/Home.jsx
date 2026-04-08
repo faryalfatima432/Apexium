@@ -11,11 +11,15 @@ const Home = () => {
    const backend_url = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const heroImages = [
-    '/images/shopping.png',
-    '/images/shoes.jpg',
     '/images/clothes.jpg',
-    '/images/perfume.jpg',
+    'images/books.jpg',
+    '/images/Glasses.jpg',
+    '/images/2.jpg',
+    '/images/3.jpg',
+    '/images/6.jpg',
+    '/images/5.jpg',
   ];
+  
 
   useEffect(() => {
     fetchProducts();
@@ -101,7 +105,7 @@ const Home = () => {
     </section>
 
       {/* ===== CATEGORIES ===== */}
-      <section className="categories">
+      {/* <section className="categories">
         <h2>Categories</h2>
 
         <div className="category-grid">
@@ -117,7 +121,7 @@ const Home = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
     </div>
   );

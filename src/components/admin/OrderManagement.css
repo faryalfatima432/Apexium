@@ -1,8 +1,87 @@
-/* OrderManagement.css - UPDATED COLOR SCHEME */
+/* ===== ORDER MANAGEMENT ===== */
 .order-management {
-    padding: 20px;
+    padding: 30px;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* ===== MANAGEMENT HEADER ===== */
+.management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
     background: white;
-    color: black;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.header-content h1 {
+    margin: 0 0 5px;
+    font-size: 2rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-content h1 i {
+    color: #667eea;
+}
+
+.header-content p {
+    margin: 0;
+    color: #7f8c8d;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* ===== LOADING SPINNER ===== */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    color: #667eea;
+}
+
+.loading-spinner i {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+    
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .orders-stats {
@@ -19,17 +98,23 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     text-align: center;
     border: 1px solid #eee;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
 }
 
 .stat-card h3 {
     font-size: 2em;
     margin: 0;
-    color: black;
+    color: #4b2e2e;
 }
 
 .stat-card p {
     margin: 5px 0 0;
     color: #666;
+    font-weight: 500;
 }
 
 .orders-table {
@@ -54,33 +139,24 @@
 }
 
 .orders-table th {
-    background: #f5f5f5;
+    background: #f8f9fa;
     font-weight: bold;
+    color: #333;
 }
 
 .status-badge {
     padding: 4px 8px;
-    border-radius: 3px;
+    border-radius: 12px;
     font-size: 12px;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
-.status-badge.pending { 
-    background: #49aea2; 
-    color: white; 
-}
-.status-badge.processing { 
-    background: #49aea2; 
-    color: white; 
-}
-.status-badge.completed { 
-    background: #49aea2; 
-    color: white; 
-}
-.status-badge.cancelled { 
-    background: #666; 
-    color: white; 
-}
+.status-badge.pending { background: #fff3cd; color: #856404; }
+.status-badge.processing { background: #cce5ff; color: #004085; }
+.status-badge.shipped { background: #d1ecf1; color: #0c5460; }
+.status-badge.delivered { background: #d4edda; color: #155724; }
+.status-badge.cancelled { background: #f8d7da; color: #721c24; }
 
 .order-items {
     max-width: 200px;
@@ -91,28 +167,50 @@
     justify-content: space-between;
     margin-bottom: 5px;
     font-size: 12px;
+    padding: 2px 0;
 }
 
 .action-buttons {
     display: flex;
     gap: 5px;
+    flex-wrap: wrap;
 }
 
 .btn-status {
     border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
+    padding: 6px 12px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
+    font-weight: bold;
+    transition: all 0.2s;
 }
 
-.btn-complete { 
-    background: #49aea2; 
-    color: white; 
+.btn-processing { background: #cce5ff; color: #004085; }
+.btn-processing:hover { background: #b3d7ff; }
+
+.btn-complete { background: #d4edda; color: #155724; }
+.btn-complete:hover { background: #c3e6cb; }
+
+.btn-cancel { background: #f8d7da; color: #721c24; }
+.btn-cancel:hover { background: #f5c6cb; }
+
+.btn-status:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
-.btn-cancel { 
-    background: #666; 
-    color: white; 
+
+.status-text {
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+}
+
+.no-data {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+    font-size: 16px;
 }
 
 /* Responsive Design */
@@ -120,22 +218,36 @@
     .orders-stats {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .orders-table {
         overflow-x: auto;
     }
-    
+
     .orders-table table {
         min-width: 800px;
     }
-    
+
     .action-buttons {
         flex-direction: column;
+    }
+
+    .management-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
     }
 }
 
 @media (max-width: 480px) {
     .orders-stats {
         grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card h3 {
+        font-size: 1.5em;
     }
 }

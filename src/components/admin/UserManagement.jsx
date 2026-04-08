@@ -1,127 +1,158 @@
-// Updated UserManagement.js - Add admin user with protection
+// Updated UserManagement.js - Backend Integration
 import React, { useState, useEffect } from 'react';
+import API from './api/api';
 import './UserManagement.css';
-import { getFromLocalStorage, saveToLocalStorage } from '../../utils/storage';
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [updatingUser, setUpdatingUser] = useState(null);
 
     useEffect(() => {
-        const savedUsers = getFromLocalStorage('users', [
-            {
-                id: 1,
-                name: 'Admin User',
-                email: 'admin@example.com',
-                role: 'Admin',
-                status: 'Active',
-                joinDate: '2024-01-01',
-                isProtected: true // Mark admin as protected
-            },
-            {
-                id: 2,
-                name: 'John Doe',
-                email: 'john.doe@example.com',
-                role: 'User',
-                status: 'Active',
-                joinDate: '2024-02-01'
-            },
-            {
-                id: 3,
-                name: 'Jane Smith',
-                email: 'jane.smith@example.com',
-                role: 'User',
-                status: 'Active',
-                joinDate: '2024-02-15'
-            },
-            {
-                id: 4,
-                name: 'Mike Johnson',
-                email: 'mike.johnson@example.com',
-                role: 'User',
-                status: 'Inactive',
-                joinDate: '2024-03-01'
-            }
-        ]);
-        setUsers(savedUsers);
+        fetchUsers();
     }, []);
 
+    const fetchUsers = async () => {
+        try {
+            setLoading(true);
+            const res = await API.get('/users');
+            setUsers(res.data);
+            setError('');
+        } catch (err) {
+            console.error('Error fetching users:', err);
+            setError('Failed to load users');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const toggleUserStatus = async (userId, currentStatus) => {
+        try {
+            setUpdatingUser(userId);
+            const newStatus = currentStatus === 'Active' ? 'Inactive' : 'Active';
+
+            const res = await API.put(`/users/${userId}/status`, { status: newStatus });
+
+            // Update local state with the response
+            setUsers(users.map(user =>
+                user._id === userId ? res.data : user
+            ));
+
+            setError('');
+        } catch (err) {
+            console.error('Error updating user:', err);
+            setError('Failed to update user status');
+        } finally {
+            setUpdatingUser(null);
+        }
+    };
+
+    const deleteUser = async (userId, userName) => {
+        if (!window.confirm(`Are you sure you want to delete user "${userName}"? This action cannot be undone.`)) {
+            return;
+        }
+
+        try {
+            setUpdatingUser(userId);
+            await API.delete(`/users/${userId}`);
+
+            // Remove from local state
+            setUsers(users.filter(user => user._id !== userId));
+            setError('');
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            setError('Failed to delete user');
+        } finally {
+            setUpdatingUser(null);
+        }
+    };
+
     const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const toggleUserStatus = (userId) => {
-        // Prevent deactivating admin user
-        const user = users.find(u => u.id === userId);
-        if (user && user.isProtected) {
-            alert('Admin user status cannot be changed');
-            return;
-        }
+    const stats = {
+        total: users.length,
+        active: users.filter(user => user.status !== 'Inactive').length,
+        inactive: users.filter(user => user.status === 'Inactive').length,
+        admins: users.filter(user => user.isAdmin).length,
+    };
 
-        const updatedUsers = users.map(user =>
-            user.id === userId
-                ? { ...user, status: user.status === 'Active' ? 'Inactive' : 'Active' }
-                : user
+    if (loading) {
+        return (
+            <div className="user-management">
+                <div className="loading-spinner">
+                    <i className="fas fa-spinner fa-spin"></i>
+                    <p>Loading users...</p>
+                </div>
+            </div>
         );
-        setUsers(updatedUsers);
-        saveToLocalStorage('users', updatedUsers);
-    };
-
-    const deleteUser = (userId) => {
-        // Prevent deleting admin user
-        const user = users.find(u => u.id === userId);
-        if (user && user.isProtected) {
-            alert('Admin user cannot be deleted');
-            return;
-        }
-
-        if (window.confirm('Are you sure you want to delete this user?')) {
-            const updatedUsers = users.filter(user => user.id !== userId);
-            setUsers(updatedUsers);
-            saveToLocalStorage('users', updatedUsers);
-        }
-    };
-
-    const addUser = () => {
-        const newUser = {
-            id: Date.now(), // Simple ID generation
-            name: 'New User',
-            email: `user${Date.now()}@example.com`,
-            role: 'User',
-            status: 'Active',
-            joinDate: new Date().toISOString().split('T')[0]
-        };
-
-        const updatedUsers = [...users, newUser];
-        setUsers(updatedUsers);
-        saveToLocalStorage('users', updatedUsers);
-    };
+    }
 
     return (
         <div className="user-management">
             <div className="management-header">
-                <h1>Users</h1>
-                <div className="header-controls">
-                    <div className="search-box">
-                        <i className="fas fa-search"></i>
-                        <input
-                            type="text"
-                            placeholder="Search users..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <button className="btn-add-user" onClick={addUser}>
-                        <i className="fas fa-plus"></i>
-                        Add User
-                    </button>
+                <div className="header-content">
+                    <h1>
+                        <i className="fas fa-users"></i>
+                        User Management
+                    </h1>
+                    <p>Manage user accounts and permissions</p>
+                </div>
+                <button className="btn-primary" onClick={fetchUsers}>
+                    <i className="fas fa-sync-alt"></i>
+                    Refresh Users
+                </button>
+            </div>
+
+            {error && (
+                <div className="error-message">
+                    <i className="fas fa-exclamation-triangle"></i>
+                    {error}
+                </div>
+            )}
+
+            {/* Search Bar */}
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Search users by name or email..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                />
+                <i className="fas fa-search search-icon"></i>
+            </div>
+
+            {/* Stats Cards */}
+            <div className="users-stats">
+                <div className="stat-card">
+                    <h3>{stats.total}</h3>
+                    <p>Total Users</p>
+                </div>
+                <div className="stat-card">
+                    <h3>{stats.active}</h3>
+                    <p>Active Users</p>
+                </div>
+                <div className="stat-card">
+                    <h3>{stats.inactive}</h3>
+                    <p>Inactive Users</p>
+                </div>
+                <div className="stat-card">
+                    <h3>{stats.admins}</h3>
+                    <p>Administrators</p>
                 </div>
             </div>
 
+            {/* Users Table */}
             <div className="users-table">
                 {filteredUsers.length === 0 ? (
-                    <p className="no-data">No users found</p>
+                    <p className="no-data">
+                        {searchTerm ? 'No users found matching your search.' : 'No users found.'}
+                    </p>
                 ) : (
                     <table>
                         <thead>
@@ -136,41 +167,48 @@ const UserManagement = () => {
                         </thead>
                         <tbody>
                             {filteredUsers.map(user => (
-                                <tr key={user.id}>
+                                <tr key={user._id}>
                                     <td>
                                         <div className="user-info">
-                                            {user.name}
-                                            {user.isProtected && <span className="protected-badge">Protected</span>}
+                                            <div className="user-name">{user.name}</div>
+                                            <div className="user-id">ID: {user._id.slice(-8)}</div>
                                         </div>
                                     </td>
                                     <td>{user.email}</td>
                                     <td>
-                                        <span className={`role-badge ${user.role.toLowerCase()}`}>
-                                            {user.role}
+                                        <span className={`role-badge ${user.isAdmin ? 'admin' : 'user'}`}>
+                                            {user.isAdmin ? 'Admin' : 'User'}
                                         </span>
                                     </td>
                                     <td>
-                                        <span className={`status-badge ${user.status.toLowerCase()}`}>
-                                            {user.status}
+                                        <span className={`status-badge ${user.status === 'Active' ? 'active' : 'inactive'}`}>
+                                            {user.status || 'Active'}
                                         </span>
                                     </td>
-                                    <td>{new Date(user.joinDate).toLocaleDateString()}</td>
+                                    <td>{new Date(user.createdAt || Date.now()).toLocaleDateString()}</td>
                                     <td>
                                         <div className="action-buttons">
-                                            <button 
-                                                className={`btn-status ${user.status === 'Active' ? 'btn-deactivate' : 'btn-activate'} ${user.isProtected ? 'disabled' : ''}`}
-                                                onClick={() => toggleUserStatus(user.id)}
-                                                disabled={user.isProtected}
-                                            >
-                                                {user.status === 'Active' ? 'Deactivate' : 'Activate'}
-                                            </button>
-                                            <button 
-                                                className={`btn-delete ${user.isProtected ? 'disabled' : ''}`}
-                                                onClick={() => deleteUser(user.id)}
-                                                disabled={user.isProtected}
-                                            >
-                                                Delete
-                                            </button>
+                                            {!user.isAdmin && (
+                                                <>
+                                                    <button
+                                                        className={`btn-status ${user.status === 'Active' ? 'btn-deactivate' : 'btn-activate'}`}
+                                                        onClick={() => toggleUserStatus(user._id, user.status)}
+                                                        disabled={updatingUser === user._id}
+                                                    >
+                                                        {updatingUser === user._id ? '...' : (user.status === 'Active' ? 'Deactivate' : 'Activate')}
+                                                    </button>
+                                                    <button
+                                                        className="btn-delete"
+                                                        onClick={() => deleteUser(user._id, user.name)}
+                                                        disabled={updatingUser === user._id}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </>
+                                            )}
+                                            {user.isAdmin && (
+                                                <span className="protected-badge">Protected Admin</span>
+                                            )}
                                         </div>
                                     </td>
                                 </tr>

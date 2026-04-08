@@ -55,12 +55,12 @@ const ProductCard = ({ p, backend_url }) => {
 
       {/* INFO */}
       <div className="product-info">
-        <h4>{p.name}</h4>
+        <h4 className="font-weight-bold fs-5">{p.name}</h4>
 
         {/* DESCRIPTION (LIMITED) */}
-        <p className="product-desc">
+        {/* <p className="product-desc">
           {p.description || "No description available"}
-        </p>
+        </p> */}
 
         {/* RATING */}
         <div className="rating">

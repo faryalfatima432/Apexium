@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart} from "../context/CartContext";
+import { useUser } from "../context/UserContext";
 import "./NAvbar.css";
 import {
   FaBars,
@@ -8,6 +9,8 @@ import {
   FaShoppingCart,
   FaUserCircle,
   FaBell,
+  FaSignOutAlt,
+  FaSignInAlt,
 } from "react-icons/fa";
 
 const Navbar = () => {
@@ -15,6 +18,7 @@ const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { totalItems } = useCart();
+  const { user, logout, isAuthenticated } = useUser();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -22,6 +26,11 @@ const Navbar = () => {
       navigate(`/search?q=${searchTerm}`);
       setSearchTerm("");
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
   };
 
   return (
@@ -100,14 +109,29 @@ const Navbar = () => {
               <span>Notify</span>
             </div>
 
-            <div 
-              className="icon-item"
-              onClick={() => navigate("/account")}
-              title="My Account"
-            >
-              <FaUserCircle />
-              <span>Account</span>
-            </div>
+            {/* Account Section - Dynamic based on auth */}
+            {isAuthenticated() ? (
+              <div className="icon-item user-menu">
+                <div className="user-info">
+                  <FaUserCircle />
+                  <span>{user?.name || 'Account'}</span>
+                </div>
+                <div className="user-dropdown">
+                  <div onClick={() => navigate("/account")}>My Account</div>
+                  <div onClick={() => navigate("/my-orders")}>My Orders</div>
+                  <div onClick={handleLogout}>Logout</div>
+                </div>
+              </div>
+            ) : (
+              <div 
+                className="icon-item"
+                onClick={() => navigate("/login")}
+                title="Login"
+              >
+                <FaSignInAlt />
+                <span>Login</span>
+              </div>
+            )}
 
             <div 
               className="icon-item" 
@@ -152,9 +176,23 @@ const Navbar = () => {
           <FaShoppingCart /> Shopping Cart
         </div>
 
-        <div className="menu-item" onClick={() => { navigate("/account"); setMenuOpen(false); }}>
-          <FaUserCircle /> My Account
-        </div>
+        {isAuthenticated() ? (
+          <>
+            <div className="menu-item" onClick={() => { navigate("/account"); setMenuOpen(false); }}>
+              <FaUserCircle /> My Account
+            </div>
+            <div className="menu-item" onClick={() => { navigate("/my-orders"); setMenuOpen(false); }}>
+              📦 My Orders
+            </div>
+            <div className="menu-item" onClick={() => { handleLogout(); setMenuOpen(false); }}>
+              <FaSignOutAlt /> Logout
+            </div>
+          </>
+        ) : (
+          <div className="menu-item" onClick={() => { navigate("/login"); setMenuOpen(false); }}>
+            <FaSignInAlt /> Login
+          </div>
+        )}
 
         <div className="menu-item" onClick={() => { navigate("/notifications"); setMenuOpen(false); }}>
           <FaBell /> Notifications

@@ -1,8 +1,8 @@
 /* ===== ADMIN DASHBOARD ===== */
 .admin-dashboard {
     min-height: 100vh;
-    padding: 20px 40px;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 30px;
+    background: #f8f9fa;
     color: #333;
 }
 

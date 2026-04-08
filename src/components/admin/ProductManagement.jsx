@@ -65,6 +65,7 @@ const ProductManagement = () => {
       name: "",
       description: "",
       price: "",
+      salePrice: "",
       stock: "",
       lowStockThreshold: "",
       category: "",
@@ -83,6 +84,7 @@ const ProductManagement = () => {
       data.append("name", formData.name);
       data.append("description", formData.description);
       data.append("price", formData.price);
+      data.append("salePrice", formData.salePrice || "");
       data.append("stock", formData.stock);
       data.append("lowStockThreshold", formData.lowStockThreshold || 5);
       data.append("category", formData.category);
@@ -122,6 +124,7 @@ const ProductManagement = () => {
       name: product.name || "",
       description: product.description || "",
       price: product.price || "",
+      salePrice: product.salePrice || "",
       stock: product.stock || "",
       lowStockThreshold: product.lowStockThreshold || "",
       category: product.category?._id || product.category || "",
@@ -240,31 +243,23 @@ const ProductManagement = () => {
             const stockStatus = getStockStatus(product);
             return (
               <div key={product._id} className="product-card">
-                {/* <div className="product-image">
-                  {product.imageUrl ? (
-                    <img src={`${backend_url}${product.imageUrl}`} alt={product.name} />
-                  ) : (
-                    <div className="no-image">
-                      <i className="fas fa-image"></i>
-                    </div>
+
+                  <div className="product-image w-100 h-50 bg-gray-200 rounded-lg overflow-hidden flex items-center justify-center">
+
+                   {product.imageUrl ? (
+
+                    <img
+                    src={`${backend_url}${product.imageUrl}`}
+                    alt={product.name}
+                    />
+
+                    ):(
+
+                  <div className="no-image">No Image</div>
+
                   )}
-                </div> */}
 
-                <div className="product-image">
-    {product.imageUrl ? (
-      <img
-        src={`${backend_url}${product.imageUrl}`}
-        alt={product.name}
-        className="product-img"
-      />
-    ) : (
-      <div className="no-image">
-        <i className="fas fa-image"></i>
-      </div>
-    )}
-  </div>
-
-
+                </div>
                 <div className="product-info">
                   <h3>{product.name}</h3>
                   <p className="product-description">{product.description}</p>
@@ -273,7 +268,17 @@ const ProductManagement = () => {
                     <div className="detail-item">
                       <span className="label">Price:</span>
                       <span className="value">
-                        {formatCurrency(product.price)}
+                        {product.salePrice && product.salePrice < product.price ? (
+                          <div className="price-section">
+                            <span className="original-price">{formatCurrency(product.price)}</span>
+                            <span className="sale-price">{formatCurrency(product.salePrice)}</span>
+                            <span className="discount-badge">
+                              {Math.round(((product.price - product.salePrice) / product.price) * 100)}% OFF
+                            </span>
+                          </div>
+                        ) : (
+                          formatCurrency(product.price)
+                        )}
                       </span>
                     </div>
                     <div className="detail-item">
@@ -400,28 +405,21 @@ const ProductManagement = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Stock Quantity *</label>
+                  <label>Sale Price ($)</label>
                   <input
                     type="number"
-                    name="stock"
-                    value={formData.stock}
-                    onChange={handleInputChange}
-                    required
-                    min="0"
-                    placeholder="0"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Low Stock Threshold</label>
-                  <input
-                    type="number"
-                    name="lowStockThreshold"
-                    value={formData.lowStockThreshold}
+                    name="salePrice"
+                    value={formData.salePrice}
                     onChange={handleInputChange}
                     min="0"
-                    placeholder="5"
+                    step="0.01"
+                    placeholder="0.00"
                   />
+                  {formData.price && formData.salePrice && (
+                    <small className="discount-info">
+                      {Math.round(((parseFloat(formData.price) - parseFloat(formData.salePrice)) / parseFloat(formData.price)) * 100)}% off
+                    </small>
+                  )}
                 </div>
               </div>
 
@@ -479,325 +477,3 @@ const ProductManagement = () => {
 };
 
 export default ProductManagement;
-
-
-
-// import React, { useState, useEffect } from "react";
-// import "./ProductManagement.css";
-// import API from "./api/api";
-
-// const ProductManagement = () => {
-//   const [products, setProducts] = useState([]);
-//   const [categories, setCategories] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [showForm, setShowForm] = useState(false);
-//   const [editingProduct, setEditingProduct] = useState(null);
-//   const [submitting, setSubmitting] = useState(false);
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [selectedCategory, setSelectedCategory] = useState("");
-
-//   // ✅ FIXED ENV
-//   const backend_url =
-//     import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
-
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     description: "",
-//     price: "",
-//     salePrice: "",
-//     stock: "",
-//     lowStockThreshold: "",
-//     category: "",
-//     image: null,
-//   });
-
-//   useEffect(() => {
-//     fetchProducts();
-//     fetchCategories();
-//   }, []);
-
-//   const fetchProducts = async () => {
-//     try {
-//       setLoading(true);
-//       const response = await API.get("/products");
-//       setProducts(response.data);
-//     } catch (err) {
-//       setError("Failed to load products");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const fetchCategories = async () => {
-//     try {
-//       const response = await API.get("/categories");
-//       setCategories(response.data);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   const handleInputChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
-//   };
-
-//   const resetForm = () => {
-//     setFormData({
-//       name: "",
-//       description: "",
-//       price: "",
-//       salePrice: "",
-//       stock: "",
-//       lowStockThreshold: "",
-//       category: "",
-//       image: null,
-//     });
-//     setEditingProduct(null);
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setSubmitting(true);
-
-//     try {
-//       const data = new FormData();
-
-//       data.append("name", formData.name);
-//       data.append("description", formData.description);
-//       data.append("price", formData.price);
-//       data.append("salePrice", formData.salePrice);
-//       data.append("stock", formData.stock);
-//       data.append("lowStockThreshold", formData.lowStockThreshold || 5);
-//       data.append("category", formData.category);
-
-//       if (formData.image) {
-//         data.append("image", formData.image);
-//       }
-
-//       if (editingProduct) {
-//         await API.put(`/products/${editingProduct._id}`, data);
-//       } else {
-//         await API.post("/products", data);
-//       }
-
-//       await fetchProducts();
-//       setShowForm(false);
-//       resetForm();
-//     } catch (err) {
-//       setError("Failed to save product");
-//     } finally {
-//       setSubmitting(false);
-//     }
-//   };
-
-//   const handleEdit = (product) => {
-//     setEditingProduct(product);
-//     setFormData({
-//       name: product.name || "",
-//       description: product.description || "",
-//       price: product.price || "",
-//       salePrice: product.salePrice || "",
-//       stock: product.stock || "",
-//       lowStockThreshold: product.lowStockThreshold || "",
-//       category: product.category?._id || "",
-//       image: null,
-//     });
-//     setShowForm(true);
-//   };
-
-//   const handleDelete = async (id) => {
-//     if (!window.confirm("Delete this product?")) return;
-
-//     try {
-//       await API.delete(`/products/${id}`);
-//       fetchProducts();
-//     } catch {
-//       setError("Delete failed");
-//     }
-//   };
-
-//   const filteredProducts = products.filter((p) => {
-//     const search =
-//       p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//       p.description?.toLowerCase().includes(searchTerm.toLowerCase());
-
-//     const categoryMatch =
-//       !selectedCategory || p.category?._id === selectedCategory;
-
-//     return search && categoryMatch;
-//   });
-
-//   const formatCurrency = (amount) =>
-//     new Intl.NumberFormat("en-US", {
-//       style: "currency",
-//       currency: "USD",
-//     }).format(amount);
-
-//   const getStockStatus = (p) => {
-//     if (p.stock === 0) return { text: "Out of Stock", class: "out-of-stock" };
-//     if (p.stock <= (p.lowStockThreshold || 5))
-//       return { text: "Low Stock", class: "low-stock" };
-//     return { text: "In Stock", class: "in-stock" };
-//   };
-
-//   if (loading) return <p>Loading...</p>;
-
-//   return (
-//     <div className="product-management">
-//       <h1>Product Management</h1>
-
-//       <button onClick={() => setShowForm(true)}>Add Product</button>
-
-//       {/* SEARCH */}
-//       <input
-//         placeholder="Search..."
-//         value={searchTerm}
-//         onChange={(e) => setSearchTerm(e.target.value)}
-//       />
-
-//       {/* PRODUCTS */}
-//       <div className="products-grid">
-//         {filteredProducts.map((p) => {
-//           const stock = getStockStatus(p);
-
-//           return (
-//             <div key={p._id} className="product-card">
-//               <div className="product-image">
-//                 {p.imageUrl ? (
-//                   <img
-//                     src={`${backend_url}${p.imageUrl}`}
-//                     alt={p.name}
-//                     className="product-img"
-//                   />
-//                 ) : (
-//                   <div className="no-image">No Image</div>
-//                 )}
-//               </div>
-
-//               <div className="product-info">
-//                 <h3>{p.name}</h3>
-
-//                 {/* PRICE SECTION */}
-//                 <div className="price-section">
-//                   {p.salePrice ? (
-//                     <>
-//                       <span className="old-price">
-//                         {formatCurrency(p.price)}
-//                       </span>
-//                       <span className="sale-price">
-//                         {formatCurrency(p.salePrice)}
-//                       </span>
-//                     </>
-//                   ) : (
-//                     <span className="normal-price">
-//                       {formatCurrency(p.price)}
-//                     </span>
-//                   )}
-//                 </div>
-
-//                 <p>{p.description}</p>
-
-//                 <div className="product-meta">
-//                   <span className={`stock ${stock.class}`}>
-//                     {p.stock} ({stock.text})
-//                   </span>
-//                   <span>{p.category?.name}</span>
-//                 </div>
-//               </div>
-
-//               <div className="product-actions">
-//                 <button onClick={() => handleEdit(p)}>Edit</button>
-//                 <button onClick={() => handleDelete(p._id)}>Delete</button>
-//               </div>
-//             </div>
-//           );
-//         })}
-//       </div>
-
-//       {/* MODAL */}
-//       {showForm && (
-//         <div className="modal">
-//           <form onSubmit={handleSubmit}>
-//             <h2>{editingProduct ? "Edit" : "Add"} Product</h2>
-
-//             <input
-//               name="name"
-//               placeholder="Name"
-//               value={formData.name}
-//               onChange={handleInputChange}
-//               required
-//             />
-
-//             <input
-//               name="price"
-//               type="number"
-//               placeholder="Price"
-//               value={formData.price}
-//               onChange={handleInputChange}
-//               required
-//             />
-
-//             <input
-//               name="salePrice"
-//               type="number"
-//               placeholder="Sale Price"
-//               value={formData.salePrice}
-//               onChange={handleInputChange}
-//             />
-
-//             <input
-//               name="stock"
-//               type="number"
-//               placeholder="Stock"
-//               value={formData.stock}
-//               onChange={handleInputChange}
-//               required
-//             />
-
-//             <select
-//               name="category"
-//               value={formData.category}
-//               onChange={handleInputChange}
-//               required
-//             >
-//               <option value="">Select Category</option>
-//               {categories.map((c) => (
-//                 <option key={c._id} value={c._id}>
-//                   {c.name}
-//                 </option>
-//               ))}
-//             </select>
-
-//             <input
-//               type="file"
-//               onChange={(e) =>
-//                 setFormData({ ...formData, image: e.target.files[0] })
-//               }
-//             />
-
-//             <button type="submit">
-//               {submitting ? "Saving..." : "Save"}
-//             </button>
-
-//             <button
-//               type="button"
-//               onClick={() => {
-//                 setShowForm(false);
-//                 resetForm();
-//               }}
-//             >
-//               Cancel
-//             </button>
-//           </form>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ProductManagement;

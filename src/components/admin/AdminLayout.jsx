@@ -6,23 +6,37 @@ import API from "./api/api";
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [adminData, setAdminData] = useState(null);
   const navigate = useNavigate();
   const dropdownRef = useRef();
 
-  const admin = JSON.parse(localStorage.getItem("admin"));
+  // Check authentication on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken');
+    const admin = localStorage.getItem('adminData');
+
+    if (token && admin) {
+      try {
+        const parsedAdmin = JSON.parse(admin);
+        setAdminData(parsedAdmin);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error('Error parsing admin data:', error);
+        handleLogout();
+      }
+    } else {
+      navigate('/admin/login');
+    }
+  }, [navigate]);
 
   const handleLogout = () => {
-  localStorage.removeItem("admin");
-  sessionStorage.removeItem("admin");
-  window.location.href = "/admin/login"; // ✅ force single redirect
-};
-
-const getAdmin = () => {
-  return (
-    JSON.parse(localStorage.getItem("admin")) ||
-    JSON.parse(sessionStorage.getItem("admin"))
-  );
-};  
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminData');
+    setIsAuthenticated(false);
+    setAdminData(null);
+    navigate('/admin/login');
+  };  
   //Close dropdown on outside click
   useEffect(() => {
     const handleClick = (e) => {
@@ -55,12 +69,12 @@ const getAdmin = () => {
             onClick={() => setDropdownOpen(!dropdownOpen)}
           >
             <i className="fas fa-user-circle"></i>
-            {admin?.name || "Admin"}
+            {adminData?.name || "Admin"}
           </div>
 
           {dropdownOpen && (
             <div className="dropdown">
-              <p>{admin?.email}</p>
+              <p>{adminData?.email}</p>
               <button onClick={handleLogout}>Logout</button>
             </div>
           )}

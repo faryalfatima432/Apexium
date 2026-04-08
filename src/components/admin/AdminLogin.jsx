@@ -42,33 +42,36 @@ const AdminLogin = ({ onLogin }) => {
   // };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const { data } = await API.post('/users/login', {
-      email: credentials.email,
-      password: credentials.password
-    });
+    try {
+      const { data } = await API.post('/users/login', {
+        email: credentials.email,
+        password: credentials.password
+      });
 
-    if (!data.isAdmin) {
-      alert('Not an admin account');
-      return;
+      if (!data.isAdmin) {
+        alert('Not an admin account');
+        return;
+      }
+
+      // Store admin data persistently
+      localStorage.setItem('adminToken', data.token);
+      localStorage.setItem('adminData', JSON.stringify({
+        _id: data._id,
+        name: data.name,
+        email: data.email,
+        isAdmin: data.isAdmin
+      }));
+
+      onLogin(data);
+      navigate('/admin/dashboard');
+
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+      alert(error.response?.data?.message || 'Invalid credentials');
     }
-
-    if (credentials.rememberMe) {
-      localStorage.setItem('admin', JSON.stringify(data));
-    } else {
-      sessionStorage.setItem('admin', JSON.stringify(data));
-    }
-
-    onLogin();
-    navigate('/admin');
-
-  } catch (error) {
-    console.error(error.response?.data || error.message);
-    alert(error.response?.data?.message || 'Invalid credentials');
-  }
-};
+  };
   return (
     <div style={{
       minHeight: '100vh',
