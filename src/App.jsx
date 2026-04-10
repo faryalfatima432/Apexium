@@ -11,6 +11,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import OrderSuccess from "./pages/OrderSuccess";
 import MyOrders from "./pages/MyOrders";
+import Contact from "./pages/Contact";
+import AboutUs from "./pages/AboutUs";
 import { useUser } from "./context/UserContext";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -18,6 +20,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Admin from "./components/admin/Admin";
 import AdminLogin from "./components/admin/AdminLogin";
 import Footer from "./components/Footer";
+import WhatsappChat from "./components/WhatsappChat";
 
 export default function App() {
   const location = useLocation();
@@ -69,6 +72,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/cart" element={<Cart />} />
         <Route
           path="/checkout"
@@ -107,6 +112,7 @@ export default function App() {
         <Route path="/notifications" element={<h2>Notifications</h2>} />
         <Route path="/privacy" element={<h2>Privacy Policy</h2>} />
         <Route path="/terms" element={<h2>Terms & Conditions</h2>} />
+        
 
         {/* ---------------- ADMIN ---------------- */}
         <Route
@@ -133,7 +139,7 @@ export default function App() {
         {/* ---------------- DEFAULT ---------------- */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-
+            {!isAdminRoute && <WhatsappChat />}
       {!isAdminRoute && <Footer />}
     </div>
   );

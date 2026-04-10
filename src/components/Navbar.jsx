@@ -12,6 +12,7 @@ import {
   FaSignOutAlt,
   FaSignInAlt,
 } from "react-icons/fa";
+import { FaEnvelope, FaInfoCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -102,36 +103,21 @@ const Navbar = () => {
 
             <div 
               className="icon-item"
-              onClick={() => navigate("/notifications")}
-              title="Notifications"
+              onClick={() => navigate("/contact")}
+              title="contact"
             >
-              <FaBell />
-              <span>Notify</span>
+              <FaEnvelope />
+              <span>Contact</span>
+            </div>
+             <div 
+              className="icon-item"
+              onClick={() => navigate("/about")}
+              title="about"
+            >
+              <FaInfoCircle />
+              <span>About</span>
             </div>
 
-            {/* Account Section - Dynamic based on auth */}
-            {isAuthenticated() ? (
-              <div className="icon-item user-menu">
-                <div className="user-info">
-                  <FaUserCircle />
-                  <span>{user?.name || 'Account'}</span>
-                </div>
-                <div className="user-dropdown">
-                  <div onClick={() => navigate("/account")}>My Account</div>
-                  <div onClick={() => navigate("/my-orders")}>My Orders</div>
-                  <div onClick={handleLogout}>Logout</div>
-                </div>
-              </div>
-            ) : (
-              <div 
-                className="icon-item"
-                onClick={() => navigate("/login")}
-                title="Login"
-              >
-                <FaSignInAlt />
-                <span>Login</span>
-              </div>
-            )}
 
             <div 
               className="icon-item" 
@@ -168,13 +154,13 @@ const Navbar = () => {
           <span onClick={() => setMenuOpen(false)}>×</span>
         </div>
 
-        <div className="menu-item" onClick={() => { navigate("/"); setMenuOpen(false); }}>
+        {/* <div className="menu-item" onClick={() => { navigate("/"); setMenuOpen(false); }}>
           <FaHome /> Home
         </div>
 
         <div className="menu-item" onClick={() => { navigate("/cart"); setMenuOpen(false); }}>
           <FaShoppingCart /> Shopping Cart
-        </div>
+        </div> */}
 
         {isAuthenticated() ? (
           <>

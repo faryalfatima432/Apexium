@@ -367,6 +367,17 @@
     }
 }
 
+.modal-content {
+    width: min(100%, 600px);
+    box-sizing: border-box;
+}
+
+.category-form input,
+.category-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* ===== LOADER ===== */
 .loader {
   height: 100vh;

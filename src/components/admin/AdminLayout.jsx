@@ -100,6 +100,10 @@ const AdminLayout = ({ onLogout }) => {
             <i className="fas fa-users"></i>
             Users
           </NavLink>
+          <NavLink to="/admin/contact-messages">
+            <i className="fas fa-envelope"></i>
+            Contact Messages
+          </NavLink>
         </nav>
       </aside>
 

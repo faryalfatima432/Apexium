@@ -7,7 +7,7 @@ import CategoryManagement from "./CategoryManagement";
 import StockManagement from "./StockManagement";
 import OrderManagement from "./OrderManagement";
 import UserManagement from "./UserManagement";
-
+import ContactMessages from "./ContactMessages";
 const Admin = ({ onLogout }) => {
   const admin =
     JSON.parse(localStorage.getItem("admin")) ||
@@ -28,6 +28,7 @@ const Admin = ({ onLogout }) => {
         <Route path="stock" element={<StockManagement />} />
         <Route path="orders" element={<OrderManagement />} />
         <Route path="users" element={<UserManagement />} />
+        <Route path="contact-messages" element={<ContactMessages />} />
       </Route>
 
       {/* ❌ UNKNOWN ROUTE */}

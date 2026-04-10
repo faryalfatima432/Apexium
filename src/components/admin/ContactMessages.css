@@ -1,0 +1,129 @@
+
+.contact-messages {
+  padding: 30px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.contact-messages .management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.contact-messages .header-content h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contact-messages .header-content h1 i {
+  color: #667eea;
+}
+
+.contact-messages .header-content p {
+  margin: 6px 0 0;
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.contact-messages .messages-table {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+}
+
+.contact-messages table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.contact-messages th,
+.contact-messages td {
+  padding: 16px 18px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  color: #2c3e50;
+  vertical-align: top;
+}
+
+.contact-messages th {
+  background: #f8f9fa;
+  font-weight: 700;
+  color: #333;
+}
+
+.contact-messages td {
+  background: white;
+}
+
+.contact-messages td:last-child {
+  text-align: center;
+}
+
+.contact-messages .no-data {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 16px;
+}
+
+.contact-messages .btn-delete {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.contact-messages .btn-delete:hover {
+  background: #c82333;
+}
+
+@media (max-width: 768px) {
+  .contact-messages {
+    padding: 20px;
+  }
+
+  .contact-messages .management-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .contact-messages table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-messages {
+    padding: 15px;
+  }
+
+  .contact-messages th,
+  .contact-messages td {
+    padding: 14px 12px;
+    font-size: 14px;
+  }
+}

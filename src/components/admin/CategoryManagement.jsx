@@ -192,7 +192,7 @@ const CategoryManagement = () => {
 
             <form onSubmit={handleSubmit} className="category-form">
               <div className="form-group">
-                <label>Category Name *</label>
+                <label className="text-white">Category Name *</label>
                 <input
                   type="text"
                   placeholder="Enter category name"
@@ -203,7 +203,7 @@ const CategoryManagement = () => {
               </div>
 
               <div className="form-group">
-                <label>Description</label>
+                <label className="text-white">Description</label>
                 <textarea
                   placeholder="Enter category description"
                   value={description}

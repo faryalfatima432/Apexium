@@ -349,7 +349,7 @@ const ProductManagement = () => {
             <form onSubmit={handleSubmit} className="product-form">
               <div className="form-row">
                 <div className="form-group">
-                  <label>Product Name *</label>
+                  <label className="text-white">Product Name *</label>
                   <input
                     type="text"
                     name="name"
@@ -361,7 +361,7 @@ const ProductManagement = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Category *</label>
+                  <label className="text-white">Category *</label>
                   <select
                     name="category"
                     value={formData.category}
@@ -379,7 +379,7 @@ const ProductManagement = () => {
               </div>
 
               <div className="form-group">
-                <label>Description</label>
+                <label className="text-white">Description</label>
                 <textarea
                   name="description"
                   value={formData.description}
@@ -391,7 +391,7 @@ const ProductManagement = () => {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>Price ($) *</label>
+                  <label className="text-white">Price ($) *</label>
                   <input
                     type="number"
                     name="price"
@@ -403,9 +403,21 @@ const ProductManagement = () => {
                     placeholder="0.00"
                   />
                 </div>
+                <div className="form-group">
+                  <label className="text-white">Stock Quantity *</label>
+                  <input
+                    type="number"
+                    name="stock"
+                    value={formData.stock}
+                    onChange={handleInputChange}
+                    required
+                    min="0"
+                    placeholder="0"
+                    />
+                </div>
 
                 <div className="form-group">
-                  <label>Sale Price ($)</label>
+                  <label className="text-white">Sale Price ($)</label>
                   <input
                     type="number"
                     name="salePrice"
@@ -424,7 +436,7 @@ const ProductManagement = () => {
               </div>
 
               <div className="form-group">
-                <label>Image</label>
+                <label className="text-white">Image</label>
                 <input
                   type="file"
                   name="image"

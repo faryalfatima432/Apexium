@@ -178,6 +178,16 @@ padding:15px;
 font-size:14px;
 color:#777;
 }
+.footer-link{
+
+text-decoration:none;
+color:#555;
+transition:0.3s;
+
+}
+.footer-link:hover{
+color:#4b2e2e;  
+}
 
 /* Responsive */
 

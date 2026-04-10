@@ -6,6 +6,8 @@ import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import contactRoutes from "./routes/contactRoute.js";
+
 // import authRoutes from "./routes/authRoutes.js";
 import path from "path";
 
@@ -25,6 +27,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
+app.use("/api/contact", contactRoutes);
 //  app.use("/uploads", express.static("uploads"));
 
 //app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
