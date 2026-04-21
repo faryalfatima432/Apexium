@@ -1,25 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart} from "../context/CartContext";
+import { useCart } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 import "./NAvbar.css";
+
 import {
-  FaBars,
   FaHome,
   FaShoppingCart,
   FaUserCircle,
-  FaBell,
+  FaEnvelope,
+  FaInfoCircle,
+  FaBars,
   FaSignOutAlt,
   FaSignInAlt,
+  FaBoxOpen,
+  FaSearch
 } from "react-icons/fa";
-import { FaEnvelope, FaInfoCircle } from "react-icons/fa";
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const { totalItems } = useCart();
-  const { user, logout, isAuthenticated } = useUser();
+  const { logout, isAuthenticated } = useUser();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -29,174 +46,150 @@ const Navbar = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
-
   return (
     <>
-      {/* NAVBAR */}
-      <nav className="navbar custom-navbar px-3">
-        <div className="container-fluid d-flex align-items-center justify-content-between">
-
-          {/* LEFT: LOGO */}
-          <div 
-            className="lay navbar-brand d-flex align-items-center fw-bold fs-4 gap-2" 
-            onClick={() => navigate("/")}
-            style={{ cursor: "pointer" }}
-          >
-           <p className="clo">Apexium</p>
-          </div>
-
-          {/* CENTER: SEARCH */}
-          <form className="search-container d-none d-md-block" onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="search-input"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </form>
-
-          {/* RIGHT: ICONS */}
-          <div className="nav-icons">
-
-            <div 
-              className="icon-item" 
-              onClick={() => navigate("/")}
-              title="Home"
-            >
-              <FaHome />
-              <span>Home</span>
-            </div>
-
-            {/* <div 
-              className="icon-item" 
-              onClick={() => navigate("/cart")}
-              title="Shopping Cart"
-            >
-              {totalItems > 0 && <span>{totalItems}</span>}
-              <FaShoppingCart /> 
-              <span>Cart</span>
-            </div> */}
-
-            <div 
-  className="icon-item cart-icon" 
-  onClick={() => navigate("/cart")}
-  title="Shopping Cart"
->
-  <div className="cart-wrapper">
-    <FaShoppingCart />
-
-    {/* ✅ Badge */}
-    {totalItems > 0 && (
-      <span className="cart-badge">
-        {totalItems}
-      </span>
-    )}
-  </div>
-
-  <span>Cart</span>
-</div>
-
-            <div 
-              className="icon-item"
-              onClick={() => navigate("/contact")}
-              title="contact"
-            >
-              <FaEnvelope />
-              <span>Contact</span>
-            </div>
-             <div 
-              className="icon-item"
-              onClick={() => navigate("/about")}
-              title="about"
-            >
-              <FaInfoCircle />
-              <span>About</span>
-            </div>
-
-
-            <div 
-              className="icon-item" 
-              onClick={() => setMenuOpen(true)}
-              title="Menu"
-            >
-              <FaBars />
-              <span>Menu</span>
-            </div>
-
-          </div>
-        </div>
-      </nav>
-
-      {/* MOBILE SEARCH */}
-      <div className="mobile-search d-md-none">
+      {/* ✅ MOBILE TOP SEARCH (DARAZ STYLE) */}
+      <div className="mobile-search-top">
         <form onSubmit={handleSearch}>
+          <FaSearch />
           <input
             type="text"
             placeholder="Search products..."
-            className="search-input"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </form>
       </div>
 
+      <nav className="navbar-main">
+
+        {/* LOGO */}
+        <h2 className="nav_logo" onClick={() => navigate("/")}>
+          Apexium
+        </h2>
+
+        {/* DESKTOP SEARCH */}
+        <form className="nav-search" onSubmit={handleSearch}>
+          <FaSearch />
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </form>
+
+        {/* RIGHT SIDE */}
+        <div className="nav-right">
+
+          <div className="desktop-icons">
+
+            <div onClick={() => navigate("/")}>
+              <FaHome />
+              <span>Home</span>
+            </div>
+
+            <div onClick={() => navigate("/cart")} className="cart">
+              <FaShoppingCart />
+              {totalItems > 0 && <span className="badge">{totalItems}</span>}
+              <span>Cart</span>
+            </div>
+
+            <div onClick={() => navigate("/contact")}>
+              <FaEnvelope />
+              <span>Contact</span>
+            </div>
+
+            <div onClick={() => navigate("/about")}>
+              <FaInfoCircle />
+              <span>About</span>
+            </div>
+
+            {/* USER */}
+            <div className="user-dropdown" ref={dropdownRef}>
+              <FaUserCircle onClick={() => setDropdownOpen(!dropdownOpen)} />
+                
+              {dropdownOpen && (
+                <div className="dropdown-menu">
+                  {isAuthenticated() ? (
+                    <>
+                      <div onClick={() => navigate("/account")}>
+                        <FaUserCircle /> 
+                        <span>My Account</span>
+                      </div>
+                      <div onClick={() => navigate("/my-orders")}>
+                        <FaBoxOpen />
+                        <span>My Orders</span>
+                      </div>
+                      <div className="d-flex" onClick={logout}>
+                        <FaSignOutAlt /> 
+                        <span>Logout</span>
+                      </div>
+                    </>
+                  ) : (
+                    <div onClick={() => navigate("/login")}>
+                      <FaSignInAlt />
+                      <span>Login</span>
+                    </div>
+                  )}
+                </div>
+              )}
+              <span>Accounts</span>
+            </div>
+
+          </div>
+
+          <FaBars className="menu-icon" onClick={() => setMenuOpen(true)} />
+        </div>
+      </nav>
+
       {/* SIDE MENU */}
       <div className={`side-menu ${menuOpen ? "open" : ""}`}>
-        <div className="menu-header">
-          <h5>
-            <FaBars /> Menu
-          </h5>
-          <span onClick={() => setMenuOpen(false)}>×</span>
+        <div className=" w-100 justify-content-between d-flex align-items-center">
+          <span>Menu</span>
+          <span 
+         onClick={() => setMenuOpen(false)} >×</span>
         </div>
 
-        {/* <div className="menu-item" onClick={() => { navigate("/"); setMenuOpen(false); }}>
+
+        <div onClick={() => { navigate("/"); setMenuOpen(false); }}>
           <FaHome /> Home
         </div>
 
-        <div className="menu-item" onClick={() => { navigate("/cart"); setMenuOpen(false); }}>
-          <FaShoppingCart /> Shopping Cart
-        </div> */}
+        <div onClick={() => { navigate("/cart"); setMenuOpen(false); }}>
+          <FaShoppingCart /> Cart
+        </div>
+
+        <div onClick={() => { navigate("/contact"); setMenuOpen(false); }}>
+          <FaEnvelope /> Contact
+        </div>
+
+        <div onClick={() => { navigate("/about"); setMenuOpen(false); }}>
+          <FaInfoCircle /> About
+        </div>
 
         {isAuthenticated() ? (
           <>
-            <div className="menu-item" onClick={() => { navigate("/account"); setMenuOpen(false); }}>
+            <div  onClick={() => { navigate("/account"); setMenuOpen(false); }}>
               <FaUserCircle /> My Account
             </div>
-            <div className="menu-item" onClick={() => { navigate("/my-orders"); setMenuOpen(false); }}>
-              📦 My Orders
+
+            <div onClick={() => { navigate("/my-orders"); setMenuOpen(false); }}>
+              <FaBoxOpen /> My Orders
             </div>
-            <div className="menu-item" onClick={() => { handleLogout(); setMenuOpen(false); }}>
+
+            <div onClick={() => { logout(); setMenuOpen(false); }}>
               <FaSignOutAlt /> Logout
             </div>
           </>
         ) : (
-          <div className="menu-item" onClick={() => { navigate("/login"); setMenuOpen(false); }}>
+          <div onClick={() => { navigate("/login"); setMenuOpen(false); }}>
             <FaSignInAlt /> Login
           </div>
         )}
-
-        <div className="menu-item" onClick={() => { navigate("/notifications"); setMenuOpen(false); }}>
-          <FaBell /> Notifications
-        </div>
-
-        <div className="menu-item" onClick={() => { navigate("/privacy"); setMenuOpen(false); }}>
-          📋 Privacy Policy
-        </div>
-
-        <div className="menu-item" onClick={() => { navigate("/terms"); setMenuOpen(false); }}>
-          📄 Terms & Conditions
-        </div>
       </div>
 
-      {/* OVERLAY */}
-      {menuOpen && (
-        <div className="overlay" onClick={() => setMenuOpen(false)} />
-      )}
+      {menuOpen && <div className="overlay" onClick={() => setMenuOpen(false)} />}
     </>
   );
 };
