@@ -107,8 +107,8 @@ const Home = () => {
       </section>
 
       {/* ===== PRODUCTS ===== */}
-     <section className="products">
-     <h2>Featured Products</h2>
+     <section className="products mt-0">
+     <h2 style={{color: "#6b4423"}}>Featured Products</h2>
 
   <div className="product-grid">
     {products.map((p) => (

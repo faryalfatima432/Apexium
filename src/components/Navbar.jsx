@@ -66,7 +66,8 @@ const Navbar = () => {
 
         {/* LOGO */}
         <h2 className="nav_logo" onClick={() => navigate("/")}>
-          Apexium
+          <span className="">Khattak</span>
+          <span style={{ color: "#6b4423" }}>Jewellers</span>
         </h2>
 
         {/* DESKTOP SEARCH */}

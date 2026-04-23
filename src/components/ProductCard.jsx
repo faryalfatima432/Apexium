@@ -55,7 +55,7 @@ const ProductCard = ({ p, backend_url }) => {
       <div className="product-body">
 
         {/* TITLE */}
-        <h4 className="product-title">{p.name}</h4>
+        <h4 className="product-title fw-bold fs-5">{p.name}</h4>
 
         {/* RATING */}
         <div className="product-rating">
