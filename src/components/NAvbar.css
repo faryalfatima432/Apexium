@@ -2,6 +2,14 @@
   --primary: #6b4423;
 }
 
+/* NAVBAR WRAPPER */
+.navbar-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+}
+
 /* NAVBAR */
 .navbar-main {
   display: flex;
@@ -9,9 +17,8 @@
   justify-content: space-between;
   padding: 14px 20px;
   background: #fff;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  position: relative;
+  width: 100%;
 }
 
 /* LOGO */
@@ -200,9 +207,7 @@
   display: none;
   padding: 10px;
   background: #fff;
-  position: sticky;
-  top: 0;
-  z-index: 999;
+  position: relative;
   border-bottom: 1px solid #eee;
 }
 
@@ -249,5 +254,9 @@
 
   .navbar-main {
     padding: 10px 15px;
+  }
+
+  .navbar-wrapper {
+    z-index: 1000;
   }
 }

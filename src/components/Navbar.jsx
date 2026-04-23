@@ -48,20 +48,21 @@ const Navbar = () => {
 
   return (
     <>
-      {/* ✅ MOBILE TOP SEARCH (DARAZ STYLE) */}
-      <div className="mobile-search-top">
-        <form onSubmit={handleSearch}>
-          <FaSearch />
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </form>
-      </div>
+      <div className="navbar-wrapper">
+        {/* ✅ MOBILE TOP SEARCH (DARAZ STYLE) */}
+        <div className="mobile-search-top">
+          <form onSubmit={handleSearch}>
+            <FaSearch />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </form>
+        </div>
 
-      <nav className="navbar-main">
+        <nav className="navbar-main">
 
         {/* LOGO */}
         <h2 className="nav_logo" onClick={() => navigate("/")}>
@@ -142,6 +143,7 @@ const Navbar = () => {
           <FaBars className="menu-icon" onClick={() => setMenuOpen(true)} />
         </div>
       </nav>
+      </div>
 
       {/* SIDE MENU */}
       <div className={`side-menu ${menuOpen ? "open" : ""}`}>

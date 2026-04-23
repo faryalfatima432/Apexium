@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API from './api/api'; 
+import API from './api/api';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
 const AdminLogin = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({
@@ -9,6 +10,7 @@ const AdminLogin = ({ onLogin }) => {
     password: '',
     rememberMe: false
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -119,26 +121,47 @@ const AdminLogin = ({ onLogin }) => {
             onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
           />
 
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            value={credentials.password}
-            onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-            required
-            style={{
-              width: '100%',
-              padding: '12px 15px',
-              marginBottom: '10px',
-              borderRadius: '6px',
-              border: '1px solid #ccc',
-              fontSize: '15px',
-              outline: 'none',
-              transition: 'border 0.2s',
-            }}
-            onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
-            onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
-          />
+          <div style={{ position: 'relative', marginBottom: '10px' }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              placeholder="Password"
+              value={credentials.password}
+              onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+              required
+              style={{
+                width: '100%',
+                padding: '12px 15px',
+                borderRadius: '6px',
+                border: '1px solid #ccc',
+                fontSize: '15px',
+                outline: 'none',
+                transition: 'border 0.2s',
+                paddingRight: '45px'
+              }}
+              onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
+              onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: 'absolute',
+                right: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: '#4b2e2e',
+                fontSize: '18px',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
 
           <div style={{
             display: 'flex',

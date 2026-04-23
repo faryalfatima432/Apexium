@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useUser } from "../context/UserContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -10,6 +11,8 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const { login, isAuthenticated } = useUser();
 
@@ -152,45 +155,87 @@ const Register = () => {
             onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
           />
 
-          <input
-            type="password"
-            placeholder="Password (min 6 characters)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{
-              width: '100%',
-              padding: '12px 15px',
-              marginBottom: '15px',
-              borderRadius: '6px',
-              border: '1px solid #ccc',
-              fontSize: '15px',
-              outline: 'none',
-              transition: 'border 0.2s',
-            }}
-            onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
-            onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
-          />
+          <div style={{ position: 'relative', marginBottom: '15px' }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password (min 6 characters)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={{
+                width: '100%',
+                padding: '12px 15px',
+                borderRadius: '6px',
+                border: '1px solid #ccc',
+                fontSize: '15px',
+                outline: 'none',
+                transition: 'border 0.2s',
+                paddingRight: '45px'
+              }}
+              onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
+              onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: 'absolute',
+                right: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: '#4b2e2e',
+                fontSize: '18px',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
 
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            style={{
-              width: '100%',
-              padding: '12px 15px',
-              marginBottom: '20px',
-              borderRadius: '6px',
-              border: '1px solid #ccc',
-              fontSize: '15px',
-              outline: 'none',
-              transition: 'border 0.2s',
-            }}
-            onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
-            onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
-          />
+          <div style={{ position: 'relative', marginBottom: '20px' }}>
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              style={{
+                width: '100%',
+                padding: '12px 15px',
+                borderRadius: '6px',
+                border: '1px solid #ccc',
+                fontSize: '15px',
+                outline: 'none',
+                transition: 'border 0.2s',
+                paddingRight: '45px'
+              }}
+              onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
+              onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              style={{
+                position: 'absolute',
+                right: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: '#4b2e2e',
+                fontSize: '18px',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
 
           <button
             type="submit"
