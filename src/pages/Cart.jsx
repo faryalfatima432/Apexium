@@ -118,7 +118,7 @@ const Cart = () => {
         similarProducts.length > 0 && (
           <div className="similar-products-section">
 
-            <h3>You Might Also Like</h3>
+            <h3 style={{color: "#6b4423"}}>You Might Also Like</h3>
 
             <div className="similar-products-grid">
 
