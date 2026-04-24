@@ -31,7 +31,7 @@ similar-img img {
 
 /* ZOOM EFFECT */
 .product-card:hover similar-img img {
-  transform: scale(3.1);
+ transform: scale(1.08);
 }
 
 /* SALE BADGE */
@@ -57,8 +57,8 @@ similar-img img {
 
 /* TITLE */
 .product-title {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   margin-bottom: 6px;
   color: #222;
 }
