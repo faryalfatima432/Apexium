@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import ProductCard from "../components/ProductCard";
 import "./Cart.css";
 
 const Cart = () => {
@@ -122,35 +123,7 @@ const Cart = () => {
             <div className="similar-products-grid">
 
               {similarProducts.map((p) => (
-                <div
-                  key={p._id}
-                  className="similar-product-card"
-                  onClick={() => navigate(`/product/${p._id}`)}
-                >
-                  <div className="similar-img">
-                    <img
-                      src={
-                        p.imageUrl
-                          ? `${backend_url}${p.imageUrl}`
-                          : "/images/shopping.png"
-                      }
-                      alt={p.name}
-                    />
-                  </div>
-
-                  <div className="similar-info">
-                    <p>{p.name}</p>
-
-                    {p.salePrice ? (
-                      <div className="price-row">
-                        <span className="sale">Rs {p.salePrice}</span>
-                        <span className="old">Rs {p.price}</span>
-                      </div>
-                    ) : (
-                      <span className="sale">Rs {p.price}</span>
-                    )}
-                  </div>
-                </div>
+                <ProductCard key={p._id} p={p} backend_url={backend_url} />
               ))}
 
             </div>

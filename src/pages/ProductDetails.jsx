@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { CartContext } from "../context/CartContext";
+import ProductCard from "../components/ProductCard";
 import "./ProductDetails.css";
 
 const ProductDetails = () => {
@@ -201,33 +202,7 @@ const ProductDetails = () => {
             <h3>You Might Also Like</h3>
             <div className="similar-products-grid">
               {sameProducts.map((p) => (
-                <div
-                  key={p._id}
-                  className="similar-product-card"
-                  onClick={() => navigate(`/product/${p._id}`)}
-                >
-                  <div className="similar-img">
-                    <img
-                      src={
-                        p.imageUrl
-                          ? `${backend_url}${p.imageUrl}`
-                          : "/images/shopping.png"
-                      }
-                      alt={p.name}
-                    />
-                  </div>
-                  <div className="similar-info">
-                    <p>{p.name}</p>
-                    {p.salePrice ? (
-                      <div className="price-row">
-                        <span className="sale">Rs {p.salePrice}</span>
-                        <span className="old">Rs {p.price}</span>
-                      </div>
-                    ) : (
-                      <span className="sale">Rs {p.price}</span>
-                    )}
-                  </div>
-                </div>
+                <ProductCard key={p._id} p={p} backend_url={backend_url} />
               ))}
             </div>
           </div>

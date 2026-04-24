@@ -43,19 +43,18 @@ const ProductCard = ({ p, backend_url }) => {
     <div className="product-card">
 
       {/* IMAGE */}
-      <div className="similar-img">
-        <img  src={imageUrl} alt={p.name}  />
+      <div className="similar-img ">
+        <img src={imageUrl} alt={p.name} />
 
         {salePercent > 0 && (
-          <span className="product-badge">-{salePercent}%</span>
+          <span className="sale-badge">-{salePercent}%off</span>
         )}
       </div>
 
-      {/* CONTENT */}
+      {/* BODY */}
       <div className="product-body">
 
-        {/* TITLE */}
-        <h4 className="product-title fw-bold fs-5">{p.name}</h4>
+        <h4 className="product-title">{p.name}</h4>
 
         {/* RATING */}
         <div className="product-rating">
@@ -66,7 +65,7 @@ const ProductCard = ({ p, backend_url }) => {
 
         {/* PRICE */}
         <div className="product-price">
-          {p.salePrice ? (
+          {salePercent > 0 ? (
             <>
               <span className="sale">Rs {p.salePrice}</span>
               <span className="old">Rs {p.price}</span>
@@ -86,6 +85,7 @@ const ProductCard = ({ p, backend_url }) => {
             View Details
           </button>
         </div>
+
       </div>
     </div>
   );

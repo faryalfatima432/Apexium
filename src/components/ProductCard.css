@@ -1,106 +1,156 @@
 .product-card {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  border-radius: 14px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
+  transition: 0.3s ease;
+}
 
-  height: auto;       
-  min-height: 100%;    
-
-  overflow: visible;  
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 /* IMAGE */
-.product-image {
+similar-img {
   width: 100%;
-  height: 140px;
+  height: 160px;
   overflow: hidden;
-  border-radius: 12px 12px 0 0;
+  position: relative;
 }
 
-.product-image img {
+similar-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* ZOOM EFFECT */
+.product-card:hover similar-img img {
+  transform: scale(3.1);
+}
+
+/* SALE BADGE */
+.sale-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #ff3b3b;
+  color: #fff;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-weight: 600;
 }
 
 /* BODY */
 .product-body {
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
   flex: 1;
 }
 
 /* TITLE */
 .product-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  margin: 5px 0;
+  margin-bottom: 6px;
+  color: #222;
+}
+
+/* RATING */
+.product-rating {
+  margin-bottom: 6px;
+}
+
+.star {
+  color: #ccc;
+  font-size: 12px;
+}
+
+.star.active {
+  color: #f5a623;
 }
 
 /* PRICE */
 .product-price {
-  font-size: 13px;
-  margin: 4px 0;
+  margin-bottom: 8px;
 }
+
+.sale {
+  color: #e60023;
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.old {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 12px;
+}
+
+.normal {
+  font-weight: 600;
+  color: #333;
+}
+
+/* BUTTONS */
 .product-buttons {
   margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 6px;
-
-  /* FORCE VISIBILITY */
-  visibility: visible !important;
-  opacity: 1 !important;
 }
 
-/* BUTTONS */
-.add-btn,
-.details-btn {
-  width: 100%;
-  padding: 7px;
-  font-size: 12px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* ADD */
+/* ADD BUTTON */
 .add-btn {
   background: #6b4423;
-  color: #fff;
+  color: white;
   border: none;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-/* DETAILS */
+.add-btn:hover {
+  background: #4e2f16;
+}
+
+/* DETAILS BUTTON */
 .details-btn {
   border: 1px solid #6b4423;
   color: #6b4423;
   background: transparent;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s;
 }
+
 .details-btn:hover {
-  background: #20201f;
-  color: #fff;
+  background: #1f1d1c;
+  color: white;
 }
+
+/* RESPONSIVE */
 @media (max-width: 576px) {
 
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  .product-card {
-    height: auto !important;
-  }
-
   .product-image {
-    height: 120px;
+    height: 130px;
   }
 
-  .product-buttons {
-    display: flex !important;
+  .product-title {
+    font-size: 13px;
   }
+  
 
   .add-btn,
   .details-btn {
