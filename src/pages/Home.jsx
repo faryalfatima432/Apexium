@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight, FaStar } from 'react-icons/fa';
 import ProductCard from '../components/ProductCard';
+import CategoryCard from '../components/CategoryCard';
 import './Home.css';
 const Home = () => {
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -118,24 +121,27 @@ const Home = () => {
      </section>
 
       {/* ===== CATEGORIES ===== */}
-      {/* <section className="categories">
-        <h2>Categories</h2>
+      <section className="categories-section">
 
-        <div className="category-grid">
-          {categories.map(c => (
-            <div key={c._id} className="category-card">
-              <img
-                src={c.image ? `${backend_url}${c.image}` : '/images/shopping.png'}
-                alt={c.name}
-              />
-              <div className="overlay">
-                <h4>{c.name}</h4>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section> */}
+  {/* <div className="section-header">
+    <h2 style={{color: "#6b4423"}} className='algin-item-start'>Shop By Category</h2>
+  
+  </div> */}
+   <h2 style={{color: "#6b4423"}} className='algin-item-start'>Shop By Category</h2>
+  
 
+  <div className="categories-grid">
+    {categories.map((c) => (
+      <CategoryCard
+        key={c._id}
+        category={c}
+        products={products}
+        backend_url={backend_url}
+      />
+    ))}
+  </div>
+
+</section>
     </div>
   );
 };

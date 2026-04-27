@@ -67,7 +67,7 @@ const Footer = () => {
         <div className="footer-col">
           <h3>Categories</h3>
           <ul>
-            <li>Electronics</li>
+            <li><a href="/categorypage">Category</a></li>
             <li>Perfumes</li>
             <li>Fashion</li>
             <li>Accessories</li>

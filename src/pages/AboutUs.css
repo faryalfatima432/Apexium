@@ -6,14 +6,33 @@ background:#f8f8f8;
 
 .about-hero{
 height:480px;
-background:url("/images/ab3.jpg") center/cover no-repeat;
+padding: 3px;
 position:relative;
+background: #f8f8f8;
+display: flex;
+align-items: stretch;
+}
+
+.about-hero::before{
+content: '';
+position: absolute;
+top: 3px;
+left: 3px;
+right: 3px;
+bottom: 3px;
+background: url("/images/ab3.jpg") center/cover no-repeat;
+border-radius: 12px;
+z-index: 1;
 }
 
 .hero-overlay{
 position:absolute;
-width:100%;
-height:100%;
+top: 3px;
+left: 3px;
+right: 3px;
+bottom: 3px;
+width: auto;
+height: auto;
 background:rgba(0,0,0,0.5);
 display:flex;
 flex-direction:column;
@@ -21,6 +40,8 @@ justify-content:center;
 align-items:center;
 color:#fff;
 text-align:center;
+border-radius: 12px;
+z-index: 2;
 }
 
 .hero-overlay h1{
@@ -53,8 +74,10 @@ grid-template-columns:1fr 1fr;
 .about-img img{
     height: 400px;
 width:100%;
-border-radius:10px;
+border-radius:12px;
 box-shadow:0 5px 20px rgba(0,0,0,0.1);
+padding: 3px;
+border: 1px solid #f0f0f0;
 }
 
 .about-text h2{
