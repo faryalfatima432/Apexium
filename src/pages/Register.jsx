@@ -81,34 +81,46 @@ const Register = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(to right, #f8f9fa, #e0e0e0)'
+      background: 'linear-gradient(135deg, #f8f9fa 0%, #e0e0e0 100%)',
+      padding: '20px'
     }}>
       <div style={{
         background: '#fff',
-        padding: '3rem 2rem',
-        borderRadius: '12px',
-        width: '400px',
-        boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
-        transition: 'transform 0.2s',
+        padding: 'clamp(1.5rem, 5vw, 3rem) clamp(1.5rem, 5vw, 2.5rem)',
+        borderRadius: '16px',
+        width: '100%',
+        maxWidth: '450px',
+        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.12)',
+        transition: 'transform 0.2s, box-shadow 0.2s',
       }}
-        onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
-        onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+        onMouseEnter={e => {
+          e.currentTarget.style.transform = 'translateY(-5px)';
+          e.currentTarget.style.boxShadow = '0 15px 50px rgba(0, 0, 0, 0.15)';
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.12)';
+        }}
       >
         <h2 style={{
           textAlign: 'center',
-          marginBottom: '2rem',
+          marginBottom: '1.5rem',
           color: '#4b2e2e',
-          fontFamily: 'Arial, sans-serif'
+          fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+          fontSize: 'clamp(1.5rem, 5vw, 2rem)',
+          fontWeight: '600'
         }}>Create Your Account</h2>
 
         {error && (
           <div style={{
             background: '#f8d7da',
             color: '#721c24',
-            padding: '10px',
-            borderRadius: '5px',
-            marginBottom: '15px',
-            textAlign: 'center'
+            padding: '12px 15px',
+            borderRadius: '8px',
+            marginBottom: '20px',
+            textAlign: 'center',
+            fontSize: '14px',
+            border: '1px solid #f5c6cb'
           }}>
             {error}
           </div>
@@ -123,16 +135,23 @@ const Register = () => {
             required
             style={{
               width: '100%',
-              padding: '12px 15px',
-              marginBottom: '15px',
-              borderRadius: '6px',
-              border: '1px solid #ccc',
+              padding: '14px 16px',
+              marginBottom: '16px',
+              borderRadius: '8px',
+              border: '2px solid #e0e0e0',
               fontSize: '15px',
               outline: 'none',
-              transition: 'border 0.2s',
+              transition: 'all 0.3s',
+              boxSizing: 'border-box'
             }}
-            onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
-            onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
+            onFocus={e => {
+              e.currentTarget.style.border = '2px solid #4b2e2e';
+              e.currentTarget.style.backgroundColor = '#fafafa';
+            }}
+            onBlur={e => {
+              e.currentTarget.style.border = '2px solid #e0e0e0';
+              e.currentTarget.style.backgroundColor = '#fff';
+            }}
           />
 
           <input
@@ -143,19 +162,26 @@ const Register = () => {
             required
             style={{
               width: '100%',
-              padding: '12px 15px',
-              marginBottom: '15px',
-              borderRadius: '6px',
-              border: '1px solid #ccc',
+              padding: '14px 16px',
+              marginBottom: '16px',
+              borderRadius: '8px',
+              border: '2px solid #e0e0e0',
               fontSize: '15px',
               outline: 'none',
-              transition: 'border 0.2s',
+              transition: 'all 0.3s',
+              boxSizing: 'border-box'
             }}
-            onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
-            onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
+            onFocus={e => {
+              e.currentTarget.style.border = '2px solid #4b2e2e';
+              e.currentTarget.style.backgroundColor = '#fafafa';
+            }}
+            onBlur={e => {
+              e.currentTarget.style.border = '2px solid #e0e0e0';
+              e.currentTarget.style.backgroundColor = '#fff';
+            }}
           />
 
-          <div style={{ position: 'relative', marginBottom: '15px' }}>
+          <div style={{ position: 'relative', marginBottom: '16px' }}>
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password (min 6 characters)"
@@ -164,23 +190,30 @@ const Register = () => {
               required
               style={{
                 width: '100%',
-                padding: '12px 15px',
-                borderRadius: '6px',
-                border: '1px solid #ccc',
+                padding: '14px 16px',
+                paddingRight: '50px',
+                borderRadius: '8px',
+                border: '2px solid #e0e0e0',
                 fontSize: '15px',
                 outline: 'none',
-                transition: 'border 0.2s',
-                paddingRight: '45px'
+                transition: 'all 0.3s',
+                boxSizing: 'border-box'
               }}
-              onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
-              onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
+              onFocus={e => {
+                e.currentTarget.style.border = '2px solid #4b2e2e';
+                e.currentTarget.style.backgroundColor = '#fafafa';
+              }}
+              onBlur={e => {
+                e.currentTarget.style.border = '2px solid #e0e0e0';
+                e.currentTarget.style.backgroundColor = '#fff';
+              }}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               style={{
                 position: 'absolute',
-                right: '12px',
+                right: '16px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 background: 'none',
@@ -189,7 +222,8 @@ const Register = () => {
                 color: '#4b2e2e',
                 fontSize: '18px',
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'center',
+                padding: '5px'
               }}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -205,23 +239,30 @@ const Register = () => {
               required
               style={{
                 width: '100%',
-                padding: '12px 15px',
-                borderRadius: '6px',
-                border: '1px solid #ccc',
+                padding: '14px 16px',
+                paddingRight: '50px',
+                borderRadius: '8px',
+                border: '2px solid #e0e0e0',
                 fontSize: '15px',
                 outline: 'none',
-                transition: 'border 0.2s',
-                paddingRight: '45px'
+                transition: 'all 0.3s',
+                boxSizing: 'border-box'
               }}
-              onFocus={e => e.currentTarget.style.border = '1px solid #4b2e2e'}
-              onBlur={e => e.currentTarget.style.border = '1px solid #ccc'}
+              onFocus={e => {
+                e.currentTarget.style.border = '2px solid #4b2e2e';
+                e.currentTarget.style.backgroundColor = '#fafafa';
+              }}
+              onBlur={e => {
+                e.currentTarget.style.border = '2px solid #e0e0e0';
+                e.currentTarget.style.backgroundColor = '#fff';
+              }}
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               style={{
                 position: 'absolute',
-                right: '12px',
+                right: '16px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 background: 'none',
@@ -230,7 +271,8 @@ const Register = () => {
                 color: '#4b2e2e',
                 fontSize: '18px',
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'center',
+                padding: '5px'
               }}
             >
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
@@ -242,16 +284,17 @@ const Register = () => {
             disabled={loading}
             style={{
               width: '100%',
-              padding: '12px',
+              padding: '14px',
               background: '#4b2e2e',
               color: '#fff',
               border: 'none',
-              borderRadius: '6px',
+              borderRadius: '8px',
               cursor: loading ? 'not-allowed' : 'pointer',
-              fontWeight: 'bold',
+              fontWeight: '600',
               fontSize: '16px',
-              transition: 'background 0.3s',
+              transition: 'all 0.3s',
               opacity: loading ? 0.7 : 1,
+              boxShadow: '0 4px 12px rgba(75, 46, 46, 0.2)'
             }}
             onMouseEnter={e => !loading && (e.currentTarget.style.background = '#3b1f1f')}
             onMouseLeave={e => !loading && (e.currentTarget.style.background = '#4b2e2e')}
@@ -260,17 +303,20 @@ const Register = () => {
           </button>
         </form>
 
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <p style={{ color: '#666' }}>
+        <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid #e0e0e0' }}>
+          <p style={{ color: '#666', fontSize: '14px', margin: '0 0 8px 0' }}>
             Already have an account?{' '}
             <span
               onClick={() => navigate('/login')}
               style={{
                 color: '#4b2e2e',
                 cursor: 'pointer',
-                fontWeight: 'bold',
-                textDecoration: 'underline'
+                fontWeight: '600',
+                textDecoration: 'none',
+                transition: '0.2s'
               }}
+              onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+              onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
             >
               Login here
             </span>
