@@ -122,11 +122,6 @@ const Home = () => {
 
       {/* ===== CATEGORIES ===== */}
       <section className="categories-section">
-
-  {/* <div className="section-header">
-    <h2 style={{color: "#6b4423"}} className='algin-item-start'>Shop By Category</h2>
-  
-  </div> */}
    <h2 style={{color: "#6b4423"}} className='algin-item-start'>Shop By Category</h2>
   
 

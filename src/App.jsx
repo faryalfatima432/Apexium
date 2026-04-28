@@ -16,6 +16,7 @@ import AboutUs from "./pages/AboutUs";
 import { useUser } from "./context/UserContext";
 import ScrollToTop from "./components/ScrollToTop";
 import CategoryPage from "./pages/CategoryPage";
+import SearchPage from "./pages/SearchPage";
 // Admin
 import Admin from "./components/admin/Admin";
 import AdminLogin from "./components/admin/AdminLogin";
@@ -76,6 +77,7 @@ export default function App() {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/category/:category" element={<CategoryPage />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route
           path="/checkout"
          element={

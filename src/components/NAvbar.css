@@ -23,13 +23,15 @@
 
 /* LOGO */
 .nav_logo {
-  color:  #6b4423;
+  color: var(--primary);
   font-size: 22px;
   font-weight: bold;
   cursor: pointer;
 }
 
-/* SEARCH (DESKTOP) */
+/* ================= SEARCH ================= */
+
+/* DESKTOP SEARCH */
 .nav-search {
   flex: 1;
   max-width: 450px;
@@ -41,6 +43,7 @@
   border-radius: 30px;
   border: 2px solid transparent;
   transition: 0.3s;
+  position: relative; /* 🔥 important for dropdown */
 }
 
 .nav-search:hover,
@@ -54,9 +57,52 @@
   outline: none;
   width: 100%;
   margin-left: 10px;
+  background: transparent;
 }
 
-/* RIGHT */
+/* 🔥 SEARCH DROPDOWN (DARAZ STYLE) */
+.search-dropdown {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  z-index: 999;
+  overflow: hidden;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* SIMPLE TEXT ITEM */
+.search-dropdown div {
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-dropdown div:hover {
+  background: #f5f5f5;
+}
+
+/* 🔥 ADVANCED ITEM (IMAGE + TEXT) */
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.search-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* ================= RIGHT ================= */
+
 .nav-right {
   display: flex;
   align-items: center;
@@ -80,7 +126,7 @@
   transition: 0.3s;
 }
 
-/* HOVER EFFECT */
+/* HOVER */
 .desktop-icons div:hover {
   transform: translateY(-3px);
   background: #e2e3e5;
@@ -103,7 +149,8 @@
   padding: 3px 6px;
 }
 
-/* DROPDOWN */
+/* ================= DROPDOWN ================= */
+
 .user-dropdown {
   position: relative;
 }
@@ -119,7 +166,6 @@
   overflow: hidden;
 }
 
-/* 🔥 FIX: ICON + TEXT SAME LINE */
 .dropdown-menu div {
   display: flex;
   align-items: center;
@@ -129,15 +175,12 @@
   transition: 0.3s;
 }
 
-.dropdown-menu div span {
-  display: inline-block;
-}
-
 .dropdown-menu div:hover {
   background: #f5f5f5;
 }
 
-/* MENU ICON */
+/* ================= MENU ICON ================= */
+
 .menu-icon {
   display: none;
   font-size: 24px;
@@ -145,7 +188,8 @@
   color: var(--primary);
 }
 
-/* SIDE MENU */
+/* ================= SIDE MENU ================= */
+
 .side-menu {
   position: fixed;
   right: -260px;
@@ -153,7 +197,7 @@
   width: 260px;
   height: 100%;
   background: white;
-  color:  #6b4423;
+  color: var(--primary);
   transition: 0.3s;
   padding: 20px;
   z-index: 1001;
@@ -163,29 +207,25 @@
   right: 0;
 }
 
-/* SIDE MENU ITEMS */
 .side-menu div {
   padding: 14px 0;
   font-size: 16px;
   display: flex;
   gap: 10px;
   cursor: pointer;
-  color:  #6b4423;
 }
 
 .side-menu div:hover {
-  background: rgba(255,255,255,0.15);
+  background: #f5f5f5;
   border-radius: 8px;
 }
 
-/* 🔥 CLOSE BUTTON FIX */
+/* CLOSE BUTTON */
 .side-menu span {
   display: flex;
   justify-content: flex-end;
   font-size: 28px;
   cursor: pointer;
-  background-color:  white;
-  color: #6b4423;
   margin-bottom: 10px;
 }
 
@@ -197,18 +237,17 @@
   background: rgba(0,0,0,0.4);
   top: 0;
   left: 0;
+  z-index: 1000;
 }
 
-/* ========================= */
-/* 🔥 MOBILE (DARAZ STYLE)   */
-/* ========================= */
+/* ================= MOBILE ================= */
 
 .mobile-search-top {
   display: none;
   padding: 10px;
   background: #fff;
-  position: relative;
   border-bottom: 1px solid #eee;
+  position: relative;
 }
 
 .mobile-search-top form {
@@ -217,10 +256,8 @@
   background: #f5f5f5;
   padding: 10px;
   border-radius: 25px;
-  transition: 0.3s;
 }
 
-/* 🔥 FIX MOBILE HOVER (USE FOCUS-WITHIN) */
 .mobile-search-top form:focus-within {
   border: 2px solid var(--primary);
   background: #fff;
@@ -231,9 +268,16 @@
   outline: none;
   width: 100%;
   margin-left: 10px;
+  background: transparent;
 }
 
-/* RESPONSIVE */
+/* 🔥 MOBILE DROPDOWN FIX */
+.mobile-search-top .search-dropdown {
+  top: 60px;
+}
+
+/* ================= RESPONSIVE ================= */
+
 @media (max-width: 768px) {
 
   .nav-search {
@@ -254,9 +298,5 @@
 
   .navbar-main {
     padding: 10px 15px;
-  }
-
-  .navbar-wrapper {
-    z-index: 1000;
   }
 }
